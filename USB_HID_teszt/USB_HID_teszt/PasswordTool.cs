@@ -11,6 +11,7 @@ using USB_HID_teszt;
 
 
 // git test
+//git test dani
 
 
 namespace USB_HID_teszt
