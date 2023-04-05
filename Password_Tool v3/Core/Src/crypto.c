@@ -1,0 +1,34 @@
+#include "crypto.h"
+#include "chacha.h"
+#include "sha1.h"
+
+
+    uint8_t key[32] = {0x89, 0x2c, 0xf5, 0xb8, 0x3e, 0xc1,
+                        0x5a, 0x77, 0x09, 0x4d, 0xa6, 0x60,
+                         0xd4, 0x1f, 0x38, 0xee, 0x52, 0xab,
+                          0xcf, 0x7d, 0x81, 0x2d, 0x6f, 0xe2,
+                           0x11, 0xa8, 0x9e, 0x37, 0x6c, 0x50,
+                            0xdb, 0xfc};
+    uint8_t nonce[12] = {0x43, 0x26, 0x98, 0xae, 0x57, 0x7b,
+                        0xfd, 0xc9, 0x05, 0xb1, 0xd3, 0x6a};
+	uint64_t counter = 0;
+
+	struct chacha20_context chacha;
+
+
+void InitContext()
+{
+	chacha20_init_context(&chacha, key, nonce, counter);
+}
+
+void Encrypt(uint8_t* bytes, size_t n_bytes)
+{
+	InitContext();
+	chacha20_xor(&chacha, bytes, n_bytes);
+}
+
+void Decrypt(uint8_t* bytes, size_t n_bytes)
+{
+	Encrypt(bytes, n_bytes);
+}
+
