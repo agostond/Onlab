@@ -20,7 +20,7 @@
 
 void KeyBoardPrint(char *data, uint16_t length);
 
-void InitKeyboard();
+void InitKeyboard(void (*WritePointerParam)(uint8_t, uint8_t));
 
 
 #endif

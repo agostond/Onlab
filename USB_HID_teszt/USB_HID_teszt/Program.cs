@@ -133,7 +133,7 @@ namespace USB_HID_teszt
         {
             Console.WriteLine("What do you  want? (1: Enetering a password, 2: Adding a password, 3: Editing a password, 4: Deleting a password,");
             Console.WriteLine("5: Getting number of enters, 6: Getting number of tabs, 7: Getting the name of a password, 8: Getting the password,");
-            Console.WriteLine("9:  Getting the username of a password, 10: Gettin number of passwords, 11: Logout)");
+            Console.WriteLine("9:  Getting the username of a password, 10: Gettin number of passwords, 11: Logout, 12: DELETE ALL DATA AND STOPS THE PROGRAM)");
 
             uint action = Convert.ToUInt32(Console.ReadLine());
             switch (action)
@@ -201,6 +201,12 @@ namespace USB_HID_teszt
                         StartUp();
                         break;
                     }
+                case 12:
+                    {
+                        dev.MassDelete();
+                        Environment.Exit(0);
+                        break;
+                    }
                 default:
                     {
                         Console.WriteLine("Invalid input!");
@@ -246,6 +252,8 @@ namespace USB_HID_teszt
 
             StartUp();
 
+            int maxPC = dev.GetMaxPassCount();
+
             while (true)
             {
                 Console.WriteLine();
@@ -260,8 +268,11 @@ namespace USB_HID_teszt
                     Console.WriteLine(item);
                     k++;
                 }
+                int currentPWs = dev.GetPassCount();
+                Console.WriteLine();
+                Console.WriteLine($"{currentPWs}/{maxPC} passwords");
+                Console.WriteLine();
                 Menu();
-                Thread.Sleep(1000);
             }
             dev.closeDevice();
             /*

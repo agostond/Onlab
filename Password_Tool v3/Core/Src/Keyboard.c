@@ -4,7 +4,6 @@
 #include "PasswordManager.h"
 #include "Write.h"
 
-//test
 
 void (*WritePointer)(uint8_t, uint8_t) = 0;
 
@@ -161,8 +160,8 @@ HunKeys keys[NumberOfKeys] = {
 };
 
 
-void InitKeyboard(){
- WritePointer = write;
+void InitKeyboard(void (*WritePointerParam)(uint8_t, uint8_t)){
+ WritePointer = WritePointerParam;
 }
 
 void KeyBoardPrint(char *data, uint16_t length){

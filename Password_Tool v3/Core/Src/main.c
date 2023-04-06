@@ -105,7 +105,7 @@ int main(void)
   /* Initialize all configured peripherals */
   	  InitUSB();
 
-  	  InitKeyboard();
+  	  InitKeyboard(&write);
   	  	  /* USER CODE BEGIN 2 */
 
 		LedOff();

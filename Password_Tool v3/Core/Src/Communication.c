@@ -39,7 +39,7 @@ uint8_t SendString(char str[], uint8_t checksum){
 	}
 	newfeature[i] = '\0';
 
-	newfeature[CHECK_SUM_PLACE-1] = checksum;
+	newfeature[CHECK_SUM_PLACE] = checksum;
 
 	return USB_Set_Feature(newfeature, i);
 
@@ -154,7 +154,6 @@ void HandleFeatureReport(){
 		  if (flag_rx == 1){
 			  switch (report_buffer[0]){
 
-			  	  //Windows recived data
 			  	  case SEND_USERNAME:{
 					  if(SendUsername(report_buffer[1], report_buffer[CHECK_SUM_PLACE])){
 						  LedOn();
@@ -276,6 +275,12 @@ void HandleFeatureReport(){
 						  failCom();
 					  }
 					  break;
+				  }
+				  case DELETE_ALL:{
+						flag_rx = 0;
+						MassErase();
+						LoginLoop();
+						break;
 				  }
 				  //error
 				  default:{

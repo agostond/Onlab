@@ -24,6 +24,7 @@
 #define SEND_MAX_PASS_COUNT 10
 #define LOGOUT 11
 #define SEND_STATUS 12
+#define DELETE_ALL 13
 
 
 
