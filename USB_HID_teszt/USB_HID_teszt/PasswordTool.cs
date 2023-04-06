@@ -83,7 +83,7 @@ namespace USB_HID_teszt
             usbhid.WriteFeature(SendMessage);
             Thread.Sleep(50);
             var time = DateTime.UtcNow;
-            while ((DateTime.UtcNow - time).TotalSeconds < 1)
+            while (true/*(DateTime.UtcNow - time).TotalSeconds < 1*/)
             {
                 byte[] Answer = usbhid.ReadFeature();
                 Thread.Sleep(30);

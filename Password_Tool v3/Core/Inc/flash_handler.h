@@ -34,7 +34,7 @@ enum ErrorCodes
 };
 
 
-
+void MassErase();
 int GetMaxRecordCount();
 int GetNextSerialNum();
 int NumberOfValidRecords();

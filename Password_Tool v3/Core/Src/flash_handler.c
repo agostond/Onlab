@@ -5,6 +5,11 @@
 
 
 
+void MassErase()
+{
+	EraseInvalidBlock(FLASH_USER_DATA_ADDRESS, (1 + 2 * NUMOFPAGES));
+}
+
 int GetMaxRecordCount()
 {
 	return MAXRECORDSNUM;

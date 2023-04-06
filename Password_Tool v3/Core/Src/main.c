@@ -120,6 +120,7 @@ int main(void)
 		EraseInvalidBlock(FLASH_START_ADDRESS_SECOND_BLOCK, NUMOFPAGES);*/
 
 		//CreateUser(masterPassword, sizeof(masterPassword));
+		//MassErase();
 		LoginLoop();
 
 		 /* Infinite loop */
