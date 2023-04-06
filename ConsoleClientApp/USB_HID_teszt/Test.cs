@@ -22,7 +22,7 @@ namespace USB_HID_teszt
             if (Feature != null)
             {
                 string stringFeature = BitConverter.ToString(Feature);
-                Console.WriteLine(stringFeature);
+                System.Console.WriteLine(stringFeature);
             }
             usbhid.CloseDevice();
 
