@@ -47,8 +47,8 @@ namespace ClientApp
 
         UsbHid usbhid = new UsbHid();
 
-        public void openDevice() {
-            usbhid.OpenDevice(0x0483, 0x5750); //device VID and PID
+        public bool openDevice() {
+            return usbhid.OpenDevice(0x0483, 0x5750); //device VID and PID
         }
 
         public void closeDevice() {

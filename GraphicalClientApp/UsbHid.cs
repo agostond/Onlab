@@ -93,7 +93,7 @@ namespace ClientApp
             get { return opened; }
         }
 
-        public void OpenDevice(int vid, int pid)
+        public bool OpenDevice(int vid, int pid)
         {
             CloseDevice();
             string[] paths = GetDevicePaths(GetHidGuid());
@@ -135,7 +135,7 @@ namespace ClientApp
                     opened = true;
                 }
             }
-
+            return opened;
 
         }
 

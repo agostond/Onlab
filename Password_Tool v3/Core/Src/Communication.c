@@ -100,6 +100,10 @@ uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status)
 		if(SEND_STATUS == report_buffer[0]){
 			SendStatus(status, report_buffer[CHECK_SUM_PLACE]);
 		}
+		if(DELETE_ALL == report_buffer[0]){
+			MassErase();
+			LoginLoop();
+		}
 	}
 	flag_rx = 0;
 	return 0;
