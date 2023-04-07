@@ -52,7 +52,9 @@ namespace ClientApp
 
         private void BtnMassDelete_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Continue;
+            if (MessageBox.Show("Are you sure?", "Deleting all data...", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                this.DialogResult = DialogResult.Continue;
+            }
         }
     }
 }

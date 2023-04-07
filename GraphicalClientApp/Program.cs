@@ -49,11 +49,13 @@ namespace ClientApp
                 }
                 else if (action == 4)
                 {
-                    MessageBox.Show("Wrong Password!");
+                    MessageBox.Show("Wrong Password!", "Invalid password",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    MessageBox.Show("Failiure accoured");
+                    MessageBox.Show("Failure occurred", "Communication Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 Thread.Sleep(200);
             }
@@ -69,7 +71,8 @@ namespace ClientApp
             ApplicationConfiguration.Initialize();
 
             if (!dev.openDevice()) {
-                MessageBox.Show("Password tool not found, please connect it via USB and restart the application!");
+                MessageBox.Show("Password tool not found, please connect it via USB and restart the application!", "Communication Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
 

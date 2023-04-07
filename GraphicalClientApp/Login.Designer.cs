@@ -58,6 +58,7 @@
             // 
             this.TbPassword.Location = new System.Drawing.Point(243, 80);
             this.TbPassword.Name = "TbPassword";
+            this.TbPassword.PasswordChar = '*';
             this.TbPassword.Size = new System.Drawing.Size(189, 27);
             this.TbPassword.TabIndex = 2;
             this.TbPassword.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
