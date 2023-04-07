@@ -68,9 +68,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 83);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(225, 20);
+            this.label1.Size = new System.Drawing.Size(233, 20);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Plase enter the master password:";
+            this.label1.Text = "Please enter the master password:";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // LoginPage

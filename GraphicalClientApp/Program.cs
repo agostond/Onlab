@@ -1,12 +1,55 @@
+using System.Xml.Linq;
+
 namespace ClientApp
 {
+
+    public class Password
+    {
+        public string PageName { get; set; }
+        public uint Id { get; set; }
+
+        public Password(string pageName, uint id)
+        {
+            if(pageName== null) throw new ArgumentNullException("You must add a name to the password!");
+            PageName = pageName;
+            Id = id;
+        }
+
+        public override string ToString()
+        {
+            return PageName;
+        }
+
+    }
     internal static class Program
     {
         private static PasswordTool dev = new PasswordTool();
+
+
+        private static List<Password> passList = new List<Password>();
+        public static List<Password>  PassList { get { return passList; } }
         private static void Logout() {
             dev.LogOut();
             StartUp();
         }
+
+        private static void SetPasslist() {
+            if (PassList != null)
+            {
+                PassList.Clear();
+            }
+            string[] PasswordsNameList = new string[dev.GetPassCount()];
+            PasswordsNameList = dev.ListPassword(PasswordsNameList);
+            uint k = 1;
+            foreach (string item in PasswordsNameList)
+            {
+                Password ps = new Password(item, k);
+                passList.Add(ps);
+                k++;
+            }
+        }
+
+
         static public void StartUp()
         {
             while (true)
@@ -77,6 +120,7 @@ namespace ClientApp
             }
 
             StartUp();
+            SetPasslist();
 
             MainPage Client = new MainPage();
             Client.LogoutBtnPushed += Logout;
