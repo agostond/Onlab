@@ -1,12 +1,13 @@
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ClientApp
 {
 
     public class Password
     {
-        public string PageName { get; set; }
-        public uint Id { get; set; }
+        public string PageName { get; private set; }
+        public uint Id { get; private set; }
 
         public Password(string pageName, uint id)
         {
@@ -25,6 +26,8 @@ namespace ClientApp
     {
         private static PasswordTool dev = new PasswordTool();
 
+        //private static MainPage Client = new MainPage();
+
         public static uint MaxPassCount { get { return (uint)dev.GetMaxPassCount(); } }
 
         public static uint PassCount { get { return (uint)dev.GetPassCount(); } }
@@ -40,9 +43,11 @@ namespace ClientApp
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else {
+                
                 MessageBox.Show("entering selected password in 1 seconds", "Succes!",
                 MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                dev.WritePassword(MainPage.SelectedPassId, 2);
+                Thread.Sleep(500);
+                dev.WritePassword(MainPage.SelectedPassId, MainPage.PassWriteType);
             }
         }
         private static void Logout() {
@@ -67,7 +72,46 @@ namespace ClientApp
         }
 
 
-        static public void StartUp()
+        static private void AddNewPass(MainPage page) {
+            if (PassCount + 1 > MaxPassCount) {
+                MessageBox.Show("You can't add a new password because your device is full, please delete unused passwords", "Device is full",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            AddPassword ap = new AddPassword();
+            DialogResult Btn = ap.ShowDialog();
+
+
+            SetPasslist();
+            page.RefreshPage();
+
+        }
+
+        static public void EditPass(MainPage page)
+        {
+            SetPasslist();
+            page.RefreshPage();
+        }
+
+        static public void DeletePass(MainPage page)
+        {
+            if (MainPage.SelectedPassId == 0)
+            {
+                MessageBox.Show("First you must select a password!", "Invalid selection",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                dev.DeletePassword(MainPage.SelectedPassId);
+                SetPasslist();
+                page.RefreshPage();
+
+            }
+
+        }
+
+        static private void StartUp()
         {
             while (true)
             {
@@ -136,12 +180,17 @@ namespace ClientApp
                 Environment.Exit(0);
             }
 
+
             StartUp();
             SetPasslist();
 
             MainPage Client = new MainPage();
+
             Client.LogoutBtnPushed += Logout;
             Client.EnterBtnPushed += Enterpass;
+            Client.AddBtnPushed += AddNewPass;
+            Client.EditBtnPushed += EditPass;
+            Client.DeleteBtnPushed += DeletePass;
 
             Application.Run(Client);
 

@@ -15,6 +15,7 @@ namespace ClientApp
 
 
     public delegate void BtnPushedDelegate();
+    public delegate void BtnNoStaticPushedDelegate(MainPage page);
 
 
 
@@ -22,17 +23,32 @@ namespace ClientApp
     {
         public event BtnPushedDelegate LogoutBtnPushed;
         public event BtnPushedDelegate EnterBtnPushed;
+        public event BtnNoStaticPushedDelegate AddBtnPushed;
+        public event BtnNoStaticPushedDelegate EditBtnPushed;
+        public event BtnNoStaticPushedDelegate DeleteBtnPushed;
 
         private static uint selectedPassId = 0;
         public static uint SelectedPassId {
             get {
                 return selectedPassId;
             }
-            set { 
+            private set { 
                 selectedPassId= value;
             }
             
             
+        }
+
+        public static uint passWriteType = 2;
+        public static uint PassWriteType
+        {
+            get { return passWriteType; }
+            private set {
+                if (value < 3)
+                {
+                    passWriteType = value;
+                }
+            }
         }
 
         public MainPage()
@@ -42,6 +58,8 @@ namespace ClientApp
         }
 
         public void RefreshPage() {
+
+            LbPasswordList.Items.Clear();
 
             if (Program.PassList != null)
             {
@@ -81,7 +99,7 @@ namespace ClientApp
             }
             if (rBtnDelete.Checked)
             {
-
+                Program.DeletePass(this);
             }
         }
 
@@ -93,12 +111,37 @@ namespace ClientApp
 
         private void BtnAddPass_Click(object sender, EventArgs e)
         {
-
+            AddBtnPushed?.Invoke(this);
         }
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
             EnterBtnPushed?.Invoke();
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            EditBtnPushed?.Invoke(this);
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteBtnPushed?.Invoke(this);
+        }
+
+        private void rBtnEnteringBoth_Click(object sender, EventArgs e)
+        {
+            PassWriteType = 2;
+        }
+
+        private void rBtnEnteringPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            PassWriteType = 0;
+        }
+
+        private void rBtnEnteringUsername_CheckedChanged(object sender, EventArgs e)
+        {
+            PassWriteType = 1;
         }
     }
 }

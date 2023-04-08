@@ -41,7 +41,8 @@ namespace ClientApp
         {
             if (string.IsNullOrWhiteSpace(TbNewPassword.Text))
             {
-                MessageBox.Show("You must enter a master password!");
+                MessageBox.Show("You must enter a master password!", "Invalid input",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
