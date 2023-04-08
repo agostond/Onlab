@@ -25,9 +25,26 @@ namespace ClientApp
     {
         private static PasswordTool dev = new PasswordTool();
 
+        public static uint MaxPassCount { get { return (uint)dev.GetMaxPassCount(); } }
+
+        public static uint PassCount { get { return (uint)dev.GetPassCount(); } }
 
         private static List<Password> passList = new List<Password>();
         public static List<Password>  PassList { get { return passList; } }
+
+
+        public static void Enterpass() {
+            if (MainPage.SelectedPassId == 0)
+            {
+                MessageBox.Show("First you must select a password!", "Invalid selection",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else {
+                MessageBox.Show("entering selected password in 1 seconds", "Succes!",
+                MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                dev.WritePassword(MainPage.SelectedPassId, 2);
+            }
+        }
         private static void Logout() {
             dev.LogOut();
             StartUp();
@@ -124,6 +141,7 @@ namespace ClientApp
 
             MainPage Client = new MainPage();
             Client.LogoutBtnPushed += Logout;
+            Client.EnterBtnPushed += Enterpass;
 
             Application.Run(Client);
 

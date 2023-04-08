@@ -41,6 +41,7 @@
             this.rBtnNone = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.BtnAddPass = new System.Windows.Forms.Button();
+            this.LbPassCounter = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BtnLogout
@@ -61,6 +62,7 @@
             this.LbPasswordList.Name = "LbPasswordList";
             this.LbPasswordList.Size = new System.Drawing.Size(406, 584);
             this.LbPasswordList.TabIndex = 1;
+            this.LbPasswordList.Click += new System.EventHandler(this.LbPasswordList_Click);
             this.LbPasswordList.DoubleClick += new System.EventHandler(this.LbPasswordList_DoubleClick);
             // 
             // BtnEnter
@@ -71,6 +73,7 @@
             this.BtnEnter.TabIndex = 2;
             this.BtnEnter.Text = "Enter";
             this.BtnEnter.UseVisualStyleBackColor = true;
+            this.BtnEnter.Click += new System.EventHandler(this.BtnEnter_Click);
             // 
             // BtnEdit
             // 
@@ -98,7 +101,6 @@
             this.label1.Size = new System.Drawing.Size(434, 20);
             this.label1.TabIndex = 5;
             this.label1.Text = "Double click on a password name, then select what to do with it:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -116,7 +118,6 @@
             this.rBtnEnter.Name = "rBtnEnter";
             this.rBtnEnter.Size = new System.Drawing.Size(17, 16);
             this.rBtnEnter.TabIndex = 7;
-            this.rBtnEnter.TabStop = true;
             this.rBtnEnter.UseVisualStyleBackColor = true;
             // 
             // rBtnEdit
@@ -126,7 +127,6 @@
             this.rBtnEdit.Name = "rBtnEdit";
             this.rBtnEdit.Size = new System.Drawing.Size(17, 16);
             this.rBtnEdit.TabIndex = 8;
-            this.rBtnEdit.TabStop = true;
             this.rBtnEdit.UseVisualStyleBackColor = true;
             // 
             // rBtnDelete
@@ -136,12 +136,12 @@
             this.rBtnDelete.Name = "rBtnDelete";
             this.rBtnDelete.Size = new System.Drawing.Size(17, 16);
             this.rBtnDelete.TabIndex = 9;
-            this.rBtnDelete.TabStop = true;
             this.rBtnDelete.UseVisualStyleBackColor = true;
             // 
             // rBtnNone
             // 
             this.rBtnNone.AutoSize = true;
+            this.rBtnNone.Checked = true;
             this.rBtnNone.Location = new System.Drawing.Point(834, 92);
             this.rBtnNone.Name = "rBtnNone";
             this.rBtnNone.Size = new System.Drawing.Size(17, 16);
@@ -167,13 +167,23 @@
             this.BtnAddPass.TabIndex = 12;
             this.BtnAddPass.Text = "Add a new password";
             this.BtnAddPass.UseVisualStyleBackColor = true;
-            this.BtnAddPass.Click += new System.EventHandler(this.button1_Click_1);
+            this.BtnAddPass.Click += new System.EventHandler(this.BtnAddPass_Click);
+            // 
+            // LbPassCounter
+            // 
+            this.LbPassCounter.AutoSize = true;
+            this.LbPassCounter.Location = new System.Drawing.Point(21, 648);
+            this.LbPassCounter.Name = "LbPassCounter";
+            this.LbPassCounter.Size = new System.Drawing.Size(96, 20);
+            this.LbPassCounter.TabIndex = 13;
+            this.LbPassCounter.Text = "x/x password";
             // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1109, 720);
+            this.Controls.Add(this.LbPassCounter);
             this.Controls.Add(this.BtnAddPass);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.rBtnNone);
@@ -212,5 +222,6 @@
         private RadioButton rBtnNone;
         private Label label3;
         private Button BtnAddPass;
+        private Label LbPassCounter;
     }
 }

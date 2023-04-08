@@ -14,16 +14,35 @@ namespace ClientApp
 
 
 
-    public delegate void LogoutBtnPushedDelegate();
+    public delegate void BtnPushedDelegate();
 
 
 
     public partial class MainPage : Form
     {
-        public event LogoutBtnPushedDelegate LogoutBtnPushed;
+        public event BtnPushedDelegate LogoutBtnPushed;
+        public event BtnPushedDelegate EnterBtnPushed;
+
+        private static uint selectedPassId = 0;
+        public static uint SelectedPassId {
+            get {
+                return selectedPassId;
+            }
+            set { 
+                selectedPassId= value;
+            }
+            
+            
+        }
+
         public MainPage()
         {
             InitializeComponent();
+            RefreshPage();
+        }
+
+        public void RefreshPage() {
+
             if (Program.PassList != null)
             {
                 foreach (var item in Program.PassList)
@@ -31,7 +50,7 @@ namespace ClientApp
                     LbPasswordList.Items.Add(item);
                 }
             }
-
+            LbPassCounter.Text = $"{Program.PassCount}/{Program.MaxPassCount} Passwords";
         }
 
         private void BtnLogout_Click(object sender, EventArgs e)
@@ -44,16 +63,6 @@ namespace ClientApp
 
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void MyClose(object sender, FormClosingEventArgs e)
         {
             //MessageBox.Show("bezárulok épp");
@@ -62,17 +71,34 @@ namespace ClientApp
         private void LbPasswordList_DoubleClick(object sender, EventArgs e)
         {
             Password SelectedPass = (Password)LbPasswordList.Items[LbPasswordList.SelectedIndex];
-            MessageBox.Show(SelectedPass.Id.ToString());
+            SelectedPassId = SelectedPass.Id;
+            if (rBtnEnter.Checked) {
+                Program.Enterpass();
+            }
+            if (rBtnEdit.Checked)
+            {
+
+            }
+            if (rBtnDelete.Checked)
+            {
+
+            }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void LbPasswordList_Click(object sender, EventArgs e)
+        {
+            Password SelectedPass = (Password)LbPasswordList.Items[LbPasswordList.SelectedIndex];
+            SelectedPassId = SelectedPass.Id;
+        }
+
+        private void BtnAddPass_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void BtnEnter_Click(object sender, EventArgs e)
         {
-
+            EnterBtnPushed?.Invoke();
         }
     }
 }

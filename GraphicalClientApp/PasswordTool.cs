@@ -249,7 +249,7 @@ namespace ClientApp
                 {
                     usbhid.WriteFeature(new byte[] { id, ENTER_PASS, (byte)(which - 1), (byte)how });
                 }
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
             }
         }
 
