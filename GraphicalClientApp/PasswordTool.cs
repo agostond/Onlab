@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -191,19 +192,20 @@ namespace ClientApp
             {
                 int k;
                 byte[] PassNameByte = ReadWrite(new byte[] { id, (byte)what, (byte)(which - 1) });
-                PassNameByte[messageSize-1] = (byte)'\0';
+                PassNameByte[messageSize - 1] = (byte)'\0';
+                
                 for (k = 1; PassNameByte[k] != 0; k++)
                 {
                     char value = (char)PassNameByte[k];
                     PassString[k - 1] = value;
                 }
                 PassString[k - 1] = '\0';
-
+                
             }
+
             string ret = new string(PassString);
-
-
             return ret;
+            
         }
 
         private static byte[] Combine(byte[] first, byte[] second)

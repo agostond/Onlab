@@ -18,10 +18,9 @@ namespace ClientApp
     public delegate void BtnNoStaticPushedDelegate(MainPage page);
 
 
-
     public partial class MainPage : Form
     {
-        public event BtnPushedDelegate LogoutBtnPushed;
+        public event BtnNoStaticPushedDelegate LogoutBtnPushed;
         public event BtnPushedDelegate EnterBtnPushed;
         public event BtnNoStaticPushedDelegate AddBtnPushed;
         public event BtnNoStaticPushedDelegate EditBtnPushed;
@@ -54,7 +53,6 @@ namespace ClientApp
         public MainPage()
         {
             InitializeComponent();
-            RefreshPage();
         }
         public static void ResetSelectedPassId(){
             selectedPassId = 0;
@@ -76,7 +74,7 @@ namespace ClientApp
 
         private void BtnLogout_Click(object sender, EventArgs e)
         {
-            LogoutBtnPushed?.Invoke();
+            LogoutBtnPushed?.Invoke(this);
         }
 
         private void MainPage_Load(object sender, EventArgs e)
@@ -108,8 +106,11 @@ namespace ClientApp
 
         private void LbPasswordList_Click(object sender, EventArgs e)
         {
-            Password SelectedPass = (Password)LbPasswordList.Items[LbPasswordList.SelectedIndex];
-            SelectedPassId = SelectedPass.Id;
+            if (LbPasswordList.SelectedIndex < 0) {
+                return;
+            }
+              Password SelectedPass = (Password)LbPasswordList.Items[LbPasswordList.SelectedIndex];
+              SelectedPassId = SelectedPass.Id;
         }
 
         private void BtnAddPass_Click(object sender, EventArgs e)

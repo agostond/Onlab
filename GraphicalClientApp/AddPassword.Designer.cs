@@ -186,8 +186,9 @@
             this.Controls.Add(this.TbNewPageName);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.BtnSend);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "AddPassword";
-            this.Text = "Adding a new password...";
+            this.Text = "Password Editor";
             ((System.ComponentModel.ISupportInitialize)(this.nUDTab)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDEnter)).EndInit();
             this.ResumeLayout(false);

@@ -45,15 +45,15 @@ namespace ClientApp
             }
             else {
 
-                if (MessageBox.Show($"Entering password '{dev.GetStringFromPass(MainPage.SelectedPassId, 3)}' in 1 seconds", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk) == DialogResult.OK) {
+                if (MessageBox.Show($"Entering password '{dev.GetStringFromPass(MainPage.SelectedPassId, 3)}' in 1 seconds", "Succes!", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK) {
                     Thread.Sleep(500);
                     dev.WritePassword(MainPage.SelectedPassId, MainPage.PassWriteType);
                 }
             }
         }
-        private static void Logout() {
+        private static void Logout(MainPage page) {
             dev.LogOut();
-            StartUp();
+            StartUp(page);
         }
 
         private static void SetPasslist() {
@@ -135,8 +135,9 @@ namespace ClientApp
 
         }
 
-        static private void StartUp()
+        static private void StartUp(MainPage page)
         {
+
             while (true)
             {
                 int action = dev.StartUp();
@@ -160,9 +161,12 @@ namespace ClientApp
                     if (Btn == DialogResult.OK)
                     {
                         dev.SendMasterPassword(lp.EnteredPass);
+                        Thread.Sleep(200);
+                        page.RefreshPage();
                     }
                     else if (Btn == DialogResult.Continue) 
                     {
+                        PassList.Clear();
                         dev.MassDelete();
                         //Environment.Exit(0);
                     }
@@ -173,6 +177,7 @@ namespace ClientApp
                 }
                 else if (action == 3)
                 {
+                    page.RefreshPage();
                     return;
                 }
                 else if (action == 4)
@@ -185,6 +190,7 @@ namespace ClientApp
                     MessageBox.Show("Failure occurred", "Communication Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
                 Thread.Sleep(200);
             }
         }
@@ -204,11 +210,11 @@ namespace ClientApp
                 Environment.Exit(0);
             }
 
-
-            StartUp();
-            SetPasslist();
-
             MainPage Client = new MainPage();
+
+            StartUp(Client);
+            SetPasslist();
+            Client.RefreshPage();
 
             Client.LogoutBtnPushed += Logout;
             Client.EnterBtnPushed += Enterpass;
