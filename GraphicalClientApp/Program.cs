@@ -41,6 +41,7 @@ namespace ClientApp
             {
                 MessageBox.Show("First you must select a password!", "Invalid selection",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             else {
 
@@ -86,7 +87,7 @@ namespace ClientApp
                 dev.AddEditPassword(0, ap.NewName, ap.NewUser, ap.NewPass, ap.NewTabNum, ap.NewEnterNum);
             }
 
-
+            MainPage.ResetSelectedPassId();
             SetPasslist();
             page.RefreshPage();
 
@@ -98,6 +99,7 @@ namespace ClientApp
             {
                 MessageBox.Show("First you must select a password!", "Invalid selection",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             AddPassword ap = new AddPassword();
@@ -108,6 +110,7 @@ namespace ClientApp
                 dev.AddEditPassword(MainPage.SelectedPassId, ap.NewName, ap.NewUser, ap.NewPass, ap.NewTabNum, ap.NewEnterNum);
             }
 
+            MainPage.ResetSelectedPassId();
             SetPasslist();
             page.RefreshPage();
         }
@@ -118,10 +121,13 @@ namespace ClientApp
             {
                 MessageBox.Show("First you must select a password!", "Invalid selection",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             else if (MessageBox.Show($"Deleting password {dev.GetStringFromPass(MainPage.SelectedPassId, 3)}", "Deleting password...", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
                 dev.DeletePassword(MainPage.SelectedPassId);
+
+                MainPage.ResetSelectedPassId();
                 SetPasslist();
                 page.RefreshPage();
 

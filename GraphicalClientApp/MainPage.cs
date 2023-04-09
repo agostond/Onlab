@@ -32,11 +32,11 @@ namespace ClientApp
             get {
                 return selectedPassId;
             }
-            private set { 
-                selectedPassId= value;
+            private set {
+                selectedPassId = value;
             }
-            
-            
+
+
         }
 
         public static uint passWriteType = 2;
@@ -55,6 +55,9 @@ namespace ClientApp
         {
             InitializeComponent();
             RefreshPage();
+        }
+        public static void ResetSelectedPassId(){
+            selectedPassId = 0;
         }
 
         public void RefreshPage() {
@@ -111,6 +114,7 @@ namespace ClientApp
 
         private void BtnAddPass_Click(object sender, EventArgs e)
         {
+
             AddBtnPushed?.Invoke(this);
         }
 
