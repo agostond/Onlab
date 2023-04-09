@@ -95,7 +95,7 @@ namespace ClientApp
             }
             if (rBtnEdit.Checked)
             {
-
+                Program.EditPass(this);
             }
             if (rBtnDelete.Checked)
             {

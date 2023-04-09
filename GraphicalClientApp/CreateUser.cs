@@ -55,5 +55,16 @@ namespace ClientApp
         {
 
         }
+
+        private void cBShow_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cBShow.Checked)
+            {
+                TbNewPassword.PasswordChar = '\0';
+            }
+            else {
+                TbNewPassword.PasswordChar = '*';
+            }
+        }
     }
 }

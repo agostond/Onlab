@@ -43,11 +43,11 @@ namespace ClientApp
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else {
-                
-                MessageBox.Show("entering selected password in 1 seconds", "Succes!",
-                MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                Thread.Sleep(500);
-                dev.WritePassword(MainPage.SelectedPassId, MainPage.PassWriteType);
+
+                if (MessageBox.Show($"Entering password '{dev.GetStringFromPass(MainPage.SelectedPassId, 3)}' in 1 seconds", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk) == DialogResult.OK) {
+                    Thread.Sleep(500);
+                    dev.WritePassword(MainPage.SelectedPassId, MainPage.PassWriteType);
+                }
             }
         }
         private static void Logout() {
@@ -80,7 +80,11 @@ namespace ClientApp
             }
 
             AddPassword ap = new AddPassword();
+            ap.Init("Create!");
             DialogResult Btn = ap.ShowDialog();
+            if (Btn == DialogResult.OK) {
+                dev.AddEditPassword(0, ap.NewName, ap.NewUser, ap.NewPass, ap.NewTabNum, ap.NewEnterNum);
+            }
 
 
             SetPasslist();
@@ -90,6 +94,20 @@ namespace ClientApp
 
         static public void EditPass(MainPage page)
         {
+            if (MainPage.SelectedPassId == 0)
+            {
+                MessageBox.Show("First you must select a password!", "Invalid selection",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            AddPassword ap = new AddPassword();
+            ap.Init("Modify!", dev.GetStringFromPass(MainPage.SelectedPassId, 2), dev.GetStringFromPass(MainPage.SelectedPassId, 3), dev.GetStringFromPass(MainPage.SelectedPassId, 0), dev.GetTabCount(MainPage.SelectedPassId), dev.GetEnterCount(MainPage.SelectedPassId));
+            DialogResult Btn = ap.ShowDialog();
+            if (Btn == DialogResult.OK)
+            {
+                dev.AddEditPassword(MainPage.SelectedPassId, ap.NewName, ap.NewUser, ap.NewPass, ap.NewTabNum, ap.NewEnterNum);
+            }
+
             SetPasslist();
             page.RefreshPage();
         }
@@ -101,7 +119,7 @@ namespace ClientApp
                 MessageBox.Show("First you must select a password!", "Invalid selection",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else
+            else if (MessageBox.Show($"Deleting password {dev.GetStringFromPass(MainPage.SelectedPassId, 3)}", "Deleting password...", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
                 dev.DeletePassword(MainPage.SelectedPassId);
                 SetPasslist();

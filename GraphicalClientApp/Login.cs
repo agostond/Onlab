@@ -53,8 +53,18 @@ namespace ClientApp
 
         private void BtnMassDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Deleting all data...", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.OK) {
+            if (MessageBox.Show("Are you sure?", "Deleting all data...", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 this.DialogResult = DialogResult.Continue;
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cBShow.Checked) {
+                TbPassword.PasswordChar = '\0';
+            }
+            else {
+                TbPassword.PasswordChar = '*';
             }
         }
     }

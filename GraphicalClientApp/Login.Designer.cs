@@ -32,6 +32,7 @@
             this.BtnMassDelete = new System.Windows.Forms.Button();
             this.TbPassword = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.cBShow = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // BtnLogin
@@ -73,11 +74,24 @@
             this.label1.Text = "Please enter the master password:";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // cBShow
+            // 
+            this.cBShow.AutoSize = true;
+            this.cBShow.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.cBShow.Location = new System.Drawing.Point(451, 83);
+            this.cBShow.Name = "cBShow";
+            this.cBShow.Size = new System.Drawing.Size(65, 24);
+            this.cBShow.TabIndex = 4;
+            this.cBShow.Text = "Show";
+            this.cBShow.UseVisualStyleBackColor = true;
+            this.cBShow.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // LoginPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 224);
+            this.ClientSize = new System.Drawing.Size(528, 224);
+            this.Controls.Add(this.cBShow);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TbPassword);
             this.Controls.Add(this.BtnMassDelete);
@@ -96,5 +110,6 @@
         private Button BtnMassDelete;
         private TextBox TbPassword;
         private Label label1;
+        private CheckBox cBShow;
     }
 }

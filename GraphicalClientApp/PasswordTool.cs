@@ -152,7 +152,7 @@ namespace ClientApp
 
         }
 
-        public int GetEnterCount(uint which)
+        public uint GetEnterCount(uint which)
         {
             if (CheckValidPassNum(which))
             {
@@ -165,7 +165,7 @@ namespace ClientApp
             
         }
 
-        public int GetTabCount(uint which)
+        public uint GetTabCount(uint which)
         {
             if (CheckValidPassNum(which))
             {
@@ -178,7 +178,7 @@ namespace ClientApp
 
         }
 
-        public char[] GetStringFromPass(uint which, uint what)
+        public string GetStringFromPass(uint which, uint what)
         {
             char[] PassString = new char[64];
 
@@ -191,7 +191,7 @@ namespace ClientApp
             {
                 int k;
                 byte[] PassNameByte = ReadWrite(new byte[] { id, (byte)what, (byte)(which - 1) });
-                PassNameByte[65] = (byte)'\0';
+                PassNameByte[messageSize-1] = (byte)'\0';
                 for (k = 1; PassNameByte[k] != 0; k++)
                 {
                     char value = (char)PassNameByte[k];
@@ -200,8 +200,10 @@ namespace ClientApp
                 PassString[k - 1] = '\0';
 
             }
+            string ret = new string(PassString);
 
-            return PassString;
+
+            return ret;
         }
 
         private static byte[] Combine(byte[] first, byte[] second)

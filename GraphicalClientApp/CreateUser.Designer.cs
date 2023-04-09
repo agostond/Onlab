@@ -33,6 +33,7 @@
             this.TbNewPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.cBShow = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // BtnCreate
@@ -84,11 +85,24 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "delete all data from the tool, to acces it again";
             // 
+            // cBShow
+            // 
+            this.cBShow.AutoSize = true;
+            this.cBShow.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.cBShow.Location = new System.Drawing.Point(458, 66);
+            this.cBShow.Name = "cBShow";
+            this.cBShow.Size = new System.Drawing.Size(65, 24);
+            this.cBShow.TabIndex = 5;
+            this.cBShow.Text = "Show";
+            this.cBShow.UseVisualStyleBackColor = true;
+            this.cBShow.CheckedChanged += new System.EventHandler(this.cBShow_CheckedChanged);
+            // 
             // CreateUserPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 224);
+            this.ClientSize = new System.Drawing.Size(628, 224);
+            this.Controls.Add(this.cBShow);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.TbNewPassword);
@@ -110,5 +124,6 @@
         private TextBox TbNewPassword;
         private Label label2;
         private Label label3;
+        private CheckBox cBShow;
     }
 }
