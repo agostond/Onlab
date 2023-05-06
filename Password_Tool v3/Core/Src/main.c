@@ -130,8 +130,8 @@ int main(void)
 
 		LedOff();
 
-/*		EraseInvalidBlock(FLASH_USER_DATA_ADDRESS, 1);
-		MassErase();*/
+//		EraseInvalidBlock(FLASH_USER_DATA_ADDRESS, 1);
+//		MassErase();
 
 
 //		int isAuth = Authenticate(hashedHMAC, salt);

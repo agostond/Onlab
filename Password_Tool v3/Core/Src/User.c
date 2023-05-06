@@ -139,12 +139,12 @@ void LoginLoop(){
 
 	uint8_t masterPassword[USB_REPORT_SIZE] = {0};
 
-	//uint8_t salt[12] = {0x4a, 0x2f, 0x7e, 0x9d, 0x01, 0x8b, 0x3c, 0x6a, 0xaf, 0x5e, 0x71, 0x0b};
-	uint8_t salt[12] = {0};
+	uint8_t salt[12] = {0x4a, 0x2f, 0x7e, 0x9d, 0x01, 0x8b, 0x3c, 0x6a, 0xaf, 0x5e, 0x71, 0x0b};
+	//uint8_t salt[12] = {0};
 
 	//RNG_Init();
 	//RNG_Function RandomGenerator = RNG_Get();
-	GenerateRandom_ADC(salt, sizeof(salt));
+	//GenerateRandom_ADC(salt, sizeof(salt));
 	//RandomGenerator(salt, sizeof(salt));
 	//while(flag_rx == 0);
 	SendRandomLoop(salt, sizeof(salt), AUTHENTICATE);
@@ -156,7 +156,7 @@ void LoginLoop(){
 		{
 
 
-			if(1 == AuthenticateFromFeature((char*)masterPassword, AUTHENTICATE))
+			if(1 == AuthenticateFromFeature((char*)masterPassword, AUTHENTICATE, salt))
 			{
 
 				if(Authenticate((char*)masterPassword, (char*)salt))
@@ -177,7 +177,7 @@ void LoginLoop(){
 		}
 		else
 		{
-			if(1 == AuthenticateFromFeature((char*)masterPassword, CREATE))
+			if(1 == AuthenticateFromFeature((char*)masterPassword, CREATE, salt))
 			{
 
 				if(CreateUser((char*)masterPassword, strlen(masterPassword)) == F_SUCCESS)

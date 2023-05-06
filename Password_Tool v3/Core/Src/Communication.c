@@ -95,11 +95,13 @@ void SendRandomLoop(uint8_t *randBytes, int length,  uint8_t status)
 		//kliens kerdezi az allapotot
 		if(SEND_STATUS == report_buffer[0]){
 			SendStatus(status, report_buffer[CHECK_SUM_PLACE]);
+			flag_rx = 0;
 		}
 
 		if(report_buffer[0] == SEND_RND_NUM)
 		{
 			SendData(randBytes, length, report_buffer[CHECK_SUM_PLACE]);
+			flag_rx = 0;
 			return;
 		}
 	}
@@ -125,7 +127,7 @@ void SendRandomLoop(uint8_t *randBytes, int length,  uint8_t status)
 }*/
 
 // TODO
-uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status)
+uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status, uint8_t *randBytes)
 {
 
 	while(1){
@@ -149,6 +151,11 @@ uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status)
 		//kliens kerdezi az allapotot
 		if(SEND_STATUS == report_buffer[0]){
 			SendStatus(status, report_buffer[CHECK_SUM_PLACE]);
+		}
+
+		if(report_buffer[0] == SEND_RND_NUM)
+		{
+			SendData(randBytes, 13, report_buffer[CHECK_SUM_PLACE]);
 		}
 
 		//kliens torlest ker

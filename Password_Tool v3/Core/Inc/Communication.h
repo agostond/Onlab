@@ -60,7 +60,7 @@ void FeatureToPass(uint8_t type);
 
 void HandleFeatureReport();
 
-uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status);
+uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status, uint8_t *randBytes);
 
 void SendRandomLoop(uint8_t *randBytes, int length,  uint8_t status);
 

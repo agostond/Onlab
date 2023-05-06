@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using ClientApp;
-
+using System.Security.Cryptography;
 
 namespace ClientApp
-{ 
+
+{
     internal class PasswordTool
     {
 
@@ -23,6 +24,7 @@ namespace ClientApp
         private const int notAuthenticated = 0xDD;
         private const int validate = 0xFF;
         private const int id = 0xbe;
+        private const int RECEIVERAND = 0xAB;
 
         private const int messageSize = 65;
         private const int CheckSumPlace = 64;
@@ -43,6 +45,7 @@ namespace ClientApp
         private const int DELETE_ALL = 13;
 
 
+
         private uint checkSum = 0;
 
 
@@ -55,6 +58,44 @@ namespace ClientApp
 
         public void closeDevice() {
             usbhid.CloseDevice();
+        }
+
+        public byte[] HashPassword(byte[] password)
+        {
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            byte[] hashedPassword = sha.ComputeHash(password);
+            return hashedPassword;
+        }
+
+
+        public byte[] WaitForRandom()
+        {
+            int Status = GetStatus();
+
+            if (Status == authenticated || Status == AuthenticationSucces) {
+
+                return null;
+            }
+
+            byte[] RndNum = ReadWrite(new byte[] { id, RECEIVERAND });
+
+            return RndNum;
+
+        }
+
+        public void SendResponse(string password, byte[] random)
+        {
+            byte[] salt = new byte[12];
+            Array.Copy(random, 1, salt, 0, 12);
+            byte[] passwordBytesRaw = GetStringBytes(password);
+            byte[] passwordBytes = new byte[passwordBytesRaw.Length - 1];
+            Array.Copy(passwordBytesRaw, 0, passwordBytes, 0, passwordBytesRaw.Length - 1);
+            byte[] hashedPassword = HashPassword(passwordBytes);
+            byte[] HMAC = Combine(hashedPassword, salt);
+
+            byte[] hashedHMAC = HashPassword(HMAC);
+            byte[] sendData = Combine(new byte[] { id, (byte)validate }, hashedHMAC);
+            usbhid.WriteFeature(sendData);
         }
 
         public int StartUp()

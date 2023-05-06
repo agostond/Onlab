@@ -138,6 +138,9 @@ namespace ClientApp
         static private void StartUp(MainPage page)
         {
 
+
+            byte[] random = dev.WaitForRandom();
+
             while (true)
             {
                 int action = dev.StartUp();
@@ -161,7 +164,7 @@ namespace ClientApp
                     DialogResult Btn = lp.ShowDialog();
                     if (Btn == DialogResult.OK)
                     {
-                        dev.SendMasterPassword(lp.EnteredPass);
+                        dev.SendResponse(lp.EnteredPass, random);
                         Thread.Sleep(200);
                     }
                     else if (Btn == DialogResult.Continue) 
