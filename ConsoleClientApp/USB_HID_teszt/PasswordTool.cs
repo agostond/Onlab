@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using USB_HID_teszt;
+using System.Security.Cryptography;
+
 
 
 namespace USB_HID_teszt
@@ -22,6 +24,7 @@ namespace USB_HID_teszt
         private const int notAuthenticated = 0xDD;
         private const int validate = 0xFF;
         private const int id = 0xbe;
+        private const int RECEIVERAND = 0xAB;
 
         private const int messageSize = 65;
         private const int CheckSumPlace = 64;
@@ -40,6 +43,7 @@ namespace USB_HID_teszt
         private const int LOGOUT = 11;
         private const int SEND_STATUS = 12;
         private const int DELETE_ALL = 13;
+        
 
 
         private uint checkSum = 0;
@@ -50,6 +54,8 @@ namespace USB_HID_teszt
         public void openDevice() {
             usbhid.OpenDevice(0x0483, 0x5750); //device VID and PID
         }
+
+  
 
         public void closeDevice() {
             usbhid.CloseDevice();
@@ -78,7 +84,40 @@ namespace USB_HID_teszt
             return 0;
         }
 
-        
+
+        public byte[] WaitForRandom() {
+
+            byte[] RndNum = ReadWrite(new byte[] { id, RECEIVERAND });
+
+            return RndNum;
+
+        }
+
+        //public void SendResponse(byte[] data) {
+        //    byte[] salt = WaitForRandom();
+        //    byte[] hashedPassword = HashPassword(masterPassword);
+        //    byte[] HMAC = Combine(hashedPassword, salt);
+
+        //    byte[] hashedHMAC = HashPassword(System.Text.Encoding.UTF8.GetString(HMAC, 0,32));
+        //    byte[] sendData = Combine(new byte[] { id, (byte)validate }, data);
+        //    ReadWrite(sendData);
+        //}
+
+        public void SendResponse(string password, byte[] random)
+        {
+            byte[] salt = new byte[12];
+            Array.Copy(random,1,salt,0, 12);
+            byte[] passwordBytes = System.Text.Encoding.ASCII.GetBytes(password);
+            byte[] hashedPassword = HashPassword(passwordBytes);
+            byte[] HMAC = Combine(hashedPassword, salt);
+
+            byte[] hashedHMAC = HashPassword(HMAC);
+            byte[] sendData = Combine(new byte[] { id, (byte)validate }, hashedHMAC);
+            ReadWrite(sendData);
+        }
+
+
+
         private byte[] ReadWrite(byte[] message)
         {
             checkSum++;
@@ -91,7 +130,7 @@ namespace USB_HID_teszt
             usbhid.WriteFeature(SendMessage);
             Thread.Sleep(50);
             var time = DateTime.UtcNow;
-            while ((DateTime.UtcNow - time).TotalSeconds < 1)
+            while (true /*(DateTime.UtcNow - time).TotalSeconds < 1*/)
             {
                 byte[] Answer = usbhid.ReadFeature();
                 Thread.Sleep(30);
@@ -123,6 +162,28 @@ namespace USB_HID_teszt
             usbhid.WriteFeature(new byte[] { id, DELETE_ALL });
             Thread.Sleep(500);
         }
+
+
+        //public byte[] HashPassword(string password)
+        //{
+        //    byte[] bytes = System.Text.Encoding.ASCII.GetBytes(password);
+        //    SHA1 sha = new SHA1CryptoServiceProvider();
+        //    byte[] hashedPassword = sha.ComputeHash(bytes);
+        //    return hashedPassword;
+        //}
+
+        public byte[] HashPassword(byte[] password)
+        {
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            byte[] hashedPassword = sha.ComputeHash(password);
+            return hashedPassword;
+        }
+
+        //public byte[] GetChallenge()
+        //{
+        //    byte[] Challenge = ReadWrite();
+        //    return Challenge;
+        //}
 
         public void SendMasterPassword(string masterPassword)
         {

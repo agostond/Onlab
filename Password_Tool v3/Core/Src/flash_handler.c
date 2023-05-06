@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-
+extern CRC_HandleTypeDef hcrc;
 
 void MassErase()
 {
@@ -87,6 +87,26 @@ int ReadRecordFromAddress(uint32_t FlashAddress, Record* RecordBuffer)
 	current_flash_address += sizeof(RecordBuffer->enterNum);
 
 	memcpy(&RecordBuffer->sumCRC, (uint32_t*)current_flash_address, sizeof(RecordBuffer->sumCRC));
+
+	// Kititkositas
+	uint8_t keyToRecordKey[32];
+	uint8_t nonce[12];
+	uint8_t recordKey[32];
+	memcpy(keyToRecordKey, (uint32_t*)FLASH_USER_DATA_ADDRESS ,32);
+	memcpy(nonce, (uint32_t*)(FLASH_USER_DATA_ADDRESS + 20), 12);
+	memcpy(recordKey, (uint32_t*)(FLASH_USER_DATA_ADDRESS + 32), 32);
+	EncryptDecrypt(keyToRecordKey, nonce, recordKey, 32);
+
+	EncryptDecrypt(recordKey, nonce, (uint8_t*)RecordBuffer->username, 32);
+	EncryptDecrypt(recordKey, nonce, (uint8_t*)RecordBuffer->password, 64);
+
+	// CRC ellenorzes
+	HAL_CRC_Calculate(&hcrc, (uint32_t*)RecordBuffer->username, 8);
+	uint32_t calCRC = HAL_CRC_Accumulate(&hcrc, (uint32_t*)RecordBuffer->password, 16);
+	if(RecordBuffer->sumCRC != calCRC)
+	{
+		return R_DECRYPTING_ERROR;
+	}
 
 	return F_SUCCESS;
 
@@ -376,12 +396,22 @@ int NewRecordToFlash(Record* newRecord)
 		flashAddress = GetValidBlockAddress(FLASH_START_ADDRESS_FIRST_BLOCK, FLASH_START_ADDRESS_SECOND_BLOCK);
 	}
 
+	// CRC kiszamolasa
 
-	// irasi logika megvalositasa
-		// itt kene titkositast hivni az adatokra
+	HAL_CRC_Calculate(&hcrc, (uint32_t*)newRecord->username, 8);
+	newRecord->sumCRC = HAL_CRC_Accumulate(&hcrc, (uint32_t*)newRecord->password, 16);
 
-/*	Encrypt((uint8_t*)newRecord->username, sizeof(newRecord->username));
-	Encrypt((uint8_t*)newRecord->password, sizeof(newRecord->password));*/
+	// Titkositas
+	uint8_t keyToRecordKey[32];
+	uint8_t nonce[12];
+	uint8_t recordKey[32];
+	memcpy(keyToRecordKey, (uint32_t*)FLASH_USER_DATA_ADDRESS ,32);
+	memcpy(nonce, (uint32_t*)(FLASH_USER_DATA_ADDRESS + 20), 12);
+	memcpy(recordKey, (uint32_t*)(FLASH_USER_DATA_ADDRESS + 32), 32);
+	EncryptDecrypt(keyToRecordKey, nonce, recordKey, 32);
+
+	EncryptDecrypt(recordKey, nonce, (uint8_t*)newRecord->username, 32);
+	EncryptDecrypt(recordKey, nonce, (uint8_t*)newRecord->password, 64);
 
 	newRecord->isSecure = 1;
 	newRecord->isValid = 1;

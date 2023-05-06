@@ -16,7 +16,7 @@ uint8_t WritePass(uint8_t which, uint8_t how){
 	HAL_Delay(3000);
 
 
-	uint32_t FlashAddress = GetValidBlockAddress();
+	//uint32_t FlashAddress = GetValidBlockAddress();
 	Record RxBuffer;
 
 	int error_code = NthRecord(which, 1, &RxBuffer);
@@ -73,7 +73,13 @@ uint8_t EditRecord(Record* NewRecord, uint8_t which){
 void GetNthRecord(Record* RxBuffer, int n)
 {
 	uint32_t flashAddress = GetValidBlockAddress();
-	NthRecord(n, 1, RxBuffer);
+	int errorCode = NthRecord(n, 1, RxBuffer);
+	// CRC ellenorzese
+	if(errorCode != F_SUCCESS)
+	{
+		//...
+	}
+
 }
 
 void GetNthPassword(int n,  char* password)

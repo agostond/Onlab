@@ -1,34 +1,67 @@
 #include "crypto.h"
 #include "chacha.h"
-#include "sha1.h"
+
+#include "stdlib.h"
 
 
-    uint8_t key[32] = {0x89, 0x2c, 0xf5, 0xb8, 0x3e, 0xc1,
-                        0x5a, 0x77, 0x09, 0x4d, 0xa6, 0x60,
-                         0xd4, 0x1f, 0x38, 0xee, 0x52, 0xab,
-                          0xcf, 0x7d, 0x81, 0x2d, 0x6f, 0xe2,
-                           0x11, 0xa8, 0x9e, 0x37, 0x6c, 0x50,
-                            0xdb, 0xfc};
-    uint8_t nonce[12] = {0x43, 0x26, 0x98, 0xae, 0x57, 0x7b,
-                        0xfd, 0xc9, 0x05, 0xb1, 0xd3, 0x6a};
-	uint64_t counter = 0;
+	extern ADC_HandleTypeDef hadc1;
+
+
+
 
 	struct chacha20_context chacha;
+	static RNG_Function RandomGenerator = 0;
+
+	int pbCounter = 0;
 
 
-void InitContext()
-{
-	chacha20_init_context(&chacha, key, nonce, counter);
-}
+	void RNG_Set(RNG_Function rng)
+	{
+		RandomGenerator = rng;
+	}
+	RNG_Function RNG_Get()
+	{
+		return RandomGenerator;
+	}
 
-void Encrypt(uint8_t* bytes, size_t n_bytes)
-{
-	InitContext();
-	chacha20_xor(&chacha, bytes, n_bytes);
-}
+	void RNG_Init()
+	{
+		RNG_Set(&GenerateRandom_ADC);
+	}
 
-void Decrypt(uint8_t* bytes, size_t n_bytes)
-{
-	Encrypt(bytes, n_bytes);
-}
+	void EncryptDecrypt(uint8_t *key, uint8_t* nonce, uint8_t* bytes, size_t n_bytes)
+	{
+		//InitContext();
+		chacha20_init_context(&chacha, key, nonce, 0);
+		chacha20_xor(&chacha, bytes, n_bytes);
+	}
 
+
+
+	void GenerateRandom_ADC(uint8_t* randomBytes, unsigned size)
+	{
+		HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+		uint8_t temp = 0;
+		uint8_t value = 0;
+
+		for(int i = 0; i < size; i++)
+		{
+				temp = HAL_ADC_GetValue(&hadc1);
+				value = temp<<4;
+				temp = HAL_ADC_GetValue(&hadc1);
+				value |= (temp)&(0x0F);
+				randomBytes[i] = value;
+		}
+
+	}
+
+
+	void GenerateKey(uint8_t* key, size_t n_bytes)
+	{
+		GenerateRandom_ADC(key, n_bytes);
+	}
+
+	void GenerateNonce(uint8_t* nonce, size_t n_bytes)
+	{
+		GenerateRandom_ADC(nonce, n_bytes);
+	}

@@ -77,6 +77,48 @@ uint8_t SendData(uint8_t* data, uint8_t length, uint8_t checksum){
 
 }
 
+
+// TODO
+//
+void SendRandomLoop(uint8_t *randBytes, int length,  uint8_t status)
+{
+	flag_rx = 0;
+	while(1)
+	{
+
+		//kliens kerdezi az allapotot
+		if(SEND_STATUS == report_buffer[0]){
+			SendStatus(status, report_buffer[CHECK_SUM_PLACE]);
+		}
+
+		if(report_buffer[0] == SEND_RND_NUM)
+		{
+			SendData(randBytes, length, report_buffer[CHECK_SUM_PLACE]);
+			return;
+		}
+	}
+}
+
+// TODO
+/*void ReceiveResponseLoop(char* masterPassword)
+{
+	flag_rx = 0;
+	while(1)
+	{
+		if(report_buffer[0] == VALID_REPORT)
+		{
+			int i = 0;
+			for(i = 0; i < report_buffer[i] != '\0' && i < USB_REPORT_MESSAGE_SIZE-1; i++)
+			{
+				masterPassword[i] = report_buffer[i + 1];
+			}
+			masterPassword[i] = '\0';
+			return;
+		}
+	}
+}*/
+
+// TODO
 uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status)
 {
 
@@ -86,9 +128,10 @@ uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status)
 		while(flag_rx == 0);
 		int i;
 
+		//jelszo erkezik
 		if(VALID_REPORT == report_buffer[0])
 		{
-			for(i = 0; i < report_buffer[i] != '\0' && i < USB_REPORT_MESSAGE_SIZE-1; i++)
+			for(i = 0; (report_buffer[i] != ('\0')) && (i < USB_REPORT_MESSAGE_SIZE-1); i++)
 			{
 				masterPassword[i] = report_buffer[i + 1];
 			}
@@ -97,9 +140,12 @@ uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status)
 			return 1;
 		}
 
+		//kliens kerdezi az allapotot
 		if(SEND_STATUS == report_buffer[0]){
 			SendStatus(status, report_buffer[CHECK_SUM_PLACE]);
 		}
+
+		//kliens torlest ker
 		if(DELETE_ALL == report_buffer[0]){
 			MassErase();
 			LoginLoop();

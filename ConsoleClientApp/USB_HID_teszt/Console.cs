@@ -161,11 +161,12 @@ namespace USB_HID_teszt
             dev.SendMasterPassword(password);
         }
 
-        static void LoginUser()
+        static void LoginUser(byte[] random)
         {
             System.Console.WriteLine("Please enter the master password: ");
             string password = System.Console.ReadLine();
-            dev.SendMasterPassword(password);
+            dev.SendResponse(password, random);
+            //dev.SendMasterPassword(password);
         }
         static void Menu()
         {
@@ -255,6 +256,8 @@ namespace USB_HID_teszt
         }
         static public void StartUp()
         {
+            //
+            byte[] random = dev.WaitForRandom();
             while (true)
             {
                 int action = dev.StartUp();
@@ -265,7 +268,7 @@ namespace USB_HID_teszt
                 }
                 else if (action == 2)
                 {
-                    LoginUser();
+                    LoginUser(random);
                 }
                 else if (action == 3)
                 {

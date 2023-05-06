@@ -8,6 +8,7 @@
 #define SUCCES  10
 #define LOGGED_IN 0xCC
 #define NOT_LOGGED_IN 0xDD
+#define SEND_RND_NUM 0xAB
 
 #define CHECK_SUM_PLACE 63
 
@@ -61,7 +62,7 @@ void HandleFeatureReport();
 
 uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status);
 
-
+void SendRandomLoop(uint8_t *randBytes, int length,  uint8_t status);
 
 
 

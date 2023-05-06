@@ -8,7 +8,8 @@
 
 void UserInit();
 int CreateUser(char* password, size_t size);
-int Authenticate(char* password, size_t size);
+/*int Authenticate(char* password, size_t size);*/
+int Authenticate(char* response, char* salt);
 int UserExists();
 void LoginLoop();
 
