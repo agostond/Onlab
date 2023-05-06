@@ -18,7 +18,7 @@
 		}HunKeys;
 
 
-void KeyBoardPrint(char *data, uint16_t length);
+void KeyBoardPrint(uint8_t *data, uint16_t length);
 
 void InitKeyboard(void (*WritePointerParam)(uint8_t, uint8_t));
 

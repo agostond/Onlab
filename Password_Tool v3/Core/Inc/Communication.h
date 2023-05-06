@@ -61,6 +61,8 @@ void HandleFeatureReport();
 
 uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status);
 
+void clearReportBuffer();
+
 
 
 

@@ -47,9 +47,10 @@
             // 
             // BtnSend
             // 
-            this.BtnSend.Location = new System.Drawing.Point(12, 289);
+            this.BtnSend.Location = new System.Drawing.Point(10, 217);
+            this.BtnSend.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnSend.Name = "BtnSend";
-            this.BtnSend.Size = new System.Drawing.Size(94, 29);
+            this.BtnSend.Size = new System.Drawing.Size(82, 22);
             this.BtnSend.TabIndex = 0;
             this.BtnSend.Text = "Send";
             this.BtnSend.UseVisualStyleBackColor = true;
@@ -57,9 +58,10 @@
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(522, 289);
+            this.BtnCancel.Location = new System.Drawing.Point(457, 217);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(94, 29);
+            this.BtnCancel.Size = new System.Drawing.Size(82, 22);
             this.BtnCancel.TabIndex = 1;
             this.BtnCancel.Text = "Cancel";
             this.BtnCancel.UseVisualStyleBackColor = true;
@@ -67,31 +69,43 @@
             // 
             // TbNewPageName
             // 
-            this.TbNewPageName.Location = new System.Drawing.Point(173, 41);
+            this.TbNewPageName.Location = new System.Drawing.Point(151, 31);
+            this.TbNewPageName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbNewPageName.MaxLength = 15;
             this.TbNewPageName.Name = "TbNewPageName";
-            this.TbNewPageName.Size = new System.Drawing.Size(290, 27);
+            this.TbNewPageName.Size = new System.Drawing.Size(254, 23);
             this.TbNewPageName.TabIndex = 2;
             // 
             // TbNewUsername
             // 
-            this.TbNewUsername.Location = new System.Drawing.Point(173, 93);
+            this.TbNewUsername.Location = new System.Drawing.Point(151, 70);
+            this.TbNewUsername.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbNewUsername.MaxLength = 60;
             this.TbNewUsername.Name = "TbNewUsername";
-            this.TbNewUsername.Size = new System.Drawing.Size(290, 27);
+            this.TbNewUsername.Size = new System.Drawing.Size(254, 23);
             this.TbNewUsername.TabIndex = 3;
             // 
             // TbNewPassword
             // 
-            this.TbNewPassword.Location = new System.Drawing.Point(173, 142);
+            this.TbNewPassword.Location = new System.Drawing.Point(151, 106);
+            this.TbNewPassword.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbNewPassword.MaxLength = 60;
             this.TbNewPassword.Name = "TbNewPassword";
             this.TbNewPassword.PasswordChar = '*';
-            this.TbNewPassword.Size = new System.Drawing.Size(290, 27);
+            this.TbNewPassword.Size = new System.Drawing.Size(254, 23);
             this.TbNewPassword.TabIndex = 4;
             // 
             // nUDTab
             // 
-            this.nUDTab.Location = new System.Drawing.Point(406, 177);
+            this.nUDTab.Location = new System.Drawing.Point(355, 133);
+            this.nUDTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nUDTab.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.nUDTab.Name = "nUDTab";
-            this.nUDTab.Size = new System.Drawing.Size(57, 27);
+            this.nUDTab.Size = new System.Drawing.Size(50, 23);
             this.nUDTab.TabIndex = 5;
             this.nUDTab.Value = new decimal(new int[] {
             1,
@@ -101,9 +115,15 @@
             // 
             // nUDEnter
             // 
-            this.nUDEnter.Location = new System.Drawing.Point(406, 217);
+            this.nUDEnter.Location = new System.Drawing.Point(355, 163);
+            this.nUDEnter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nUDEnter.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.nUDEnter.Name = "nUDEnter";
-            this.nUDEnter.Size = new System.Drawing.Size(57, 27);
+            this.nUDEnter.Size = new System.Drawing.Size(50, 23);
             this.nUDEnter.TabIndex = 6;
             this.nUDEnter.Value = new decimal(new int[] {
             1,
@@ -114,55 +134,56 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(49, 41);
+            this.label1.Location = new System.Drawing.Point(43, 31);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 20);
+            this.label1.Size = new System.Drawing.Size(93, 15);
             this.label1.TabIndex = 7;
             this.label1.Text = "New page name";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(49, 93);
+            this.label2.Location = new System.Drawing.Point(43, 70);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(111, 20);
+            this.label2.Size = new System.Drawing.Size(89, 15);
             this.label2.TabIndex = 8;
             this.label2.Text = "New user name";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(49, 142);
+            this.label3.Location = new System.Drawing.Point(43, 106);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(106, 20);
+            this.label3.Size = new System.Drawing.Size(84, 15);
             this.label3.TabIndex = 9;
             this.label3.Text = "New password";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(49, 184);
+            this.label4.Location = new System.Drawing.Point(43, 138);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(351, 20);
+            this.label4.Size = new System.Drawing.Size(280, 15);
             this.label4.TabIndex = 10;
             this.label4.Text = "Tabulator number between username and password";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(49, 224);
+            this.label5.Location = new System.Drawing.Point(43, 168);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(323, 20);
+            this.label5.Size = new System.Drawing.Size(200, 15);
             this.label5.TabIndex = 11;
-            this.label5.Text = "Enter number between username and password";
+            this.label5.Text = "Number of enters after the password";
             // 
             // cBShow
             // 
             this.cBShow.AutoSize = true;
             this.cBShow.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.cBShow.Location = new System.Drawing.Point(469, 145);
+            this.cBShow.Location = new System.Drawing.Point(410, 109);
+            this.cBShow.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cBShow.Name = "cBShow";
-            this.cBShow.Size = new System.Drawing.Size(65, 24);
+            this.cBShow.Size = new System.Drawing.Size(54, 19);
             this.cBShow.TabIndex = 12;
             this.cBShow.Text = "Show";
             this.cBShow.UseVisualStyleBackColor = true;
@@ -170,9 +191,9 @@
             // 
             // AddPassword
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 330);
+            this.ClientSize = new System.Drawing.Size(550, 248);
             this.Controls.Add(this.cBShow);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -187,6 +208,7 @@
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.BtnSend);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "AddPassword";
             this.Text = "Password Editor";
             ((System.ComponentModel.ISupportInitialize)(this.nUDTab)).EndInit();

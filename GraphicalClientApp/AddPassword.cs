@@ -103,12 +103,12 @@ namespace ClientApp
                 MessageBox.Show("You must enter a password!", "Invalid input",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            if (string.IsNullOrWhiteSpace(TbNewUsername.Text))
+            else if (string.IsNullOrWhiteSpace(TbNewUsername.Text))
             {
                 MessageBox.Show("You must enter a username!", "Invalid input",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            if (string.IsNullOrWhiteSpace(TbNewPageName.Text))
+            else if (string.IsNullOrWhiteSpace(TbNewPageName.Text))
             {
                 MessageBox.Show("You must enter a page name!", "Invalid input",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);

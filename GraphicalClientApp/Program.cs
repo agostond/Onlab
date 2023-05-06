@@ -44,8 +44,8 @@ namespace ClientApp
                 return;
             }
             else {
-
-                if (MessageBox.Show($"Entering password '{dev.GetStringFromPass(MainPage.SelectedPassId, 3)}' in 1 seconds", "Succes!", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK) {
+                string pass = dev.GetStringFromPass(MainPage.SelectedPassId, 3);
+                if (MessageBox.Show("Entering password in 1 second: " + pass, "Success!", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK) {
                     Thread.Sleep(500);
                     dev.WritePassword(MainPage.SelectedPassId, MainPage.PassWriteType);
                 }
@@ -123,7 +123,7 @@ namespace ClientApp
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            else if (MessageBox.Show($"Deleting password {dev.GetStringFromPass(MainPage.SelectedPassId, 3)}", "Deleting password...", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            else if (MessageBox.Show($"Deleting password: {dev.GetStringFromPass(MainPage.SelectedPassId, 3)}", "Deleting password...", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
                 dev.DeletePassword(MainPage.SelectedPassId);
 
@@ -151,6 +151,7 @@ namespace ClientApp
                     }
                     else
                     {
+                        dev.closeDevice();
                         Environment.Exit(0);
                     }
                 }
@@ -162,16 +163,17 @@ namespace ClientApp
                     {
                         dev.SendMasterPassword(lp.EnteredPass);
                         Thread.Sleep(200);
-                        page.RefreshPage();
                     }
                     else if (Btn == DialogResult.Continue) 
                     {
                         PassList.Clear();
                         dev.MassDelete();
-                        //Environment.Exit(0);
+                        dev.closeDevice();
+                        Environment.Exit(0);
                     }
                     else
                     {
+                        dev.closeDevice();
                         Environment.Exit(0);
                     }
                 }
@@ -189,6 +191,8 @@ namespace ClientApp
                 {
                     MessageBox.Show("Failure occurred", "Communication Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dev.closeDevice();
+                    Environment.Exit(0);
                 }
 
                 Thread.Sleep(200);

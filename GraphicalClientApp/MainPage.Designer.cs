@@ -54,9 +54,10 @@
             // 
             // BtnLogout
             // 
-            this.BtnLogout.Location = new System.Drawing.Point(1003, 679);
+            this.BtnLogout.Location = new System.Drawing.Point(876, 507);
+            this.BtnLogout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnLogout.Name = "BtnLogout";
-            this.BtnLogout.Size = new System.Drawing.Size(94, 29);
+            this.BtnLogout.Size = new System.Drawing.Size(82, 27);
             this.BtnLogout.TabIndex = 0;
             this.BtnLogout.Text = "Logout";
             this.BtnLogout.UseVisualStyleBackColor = true;
@@ -65,19 +66,21 @@
             // LbPasswordList
             // 
             this.LbPasswordList.FormattingEnabled = true;
-            this.LbPasswordList.ItemHeight = 20;
-            this.LbPasswordList.Location = new System.Drawing.Point(21, 52);
+            this.LbPasswordList.ItemHeight = 15;
+            this.LbPasswordList.Location = new System.Drawing.Point(18, 39);
+            this.LbPasswordList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.LbPasswordList.Name = "LbPasswordList";
-            this.LbPasswordList.Size = new System.Drawing.Size(406, 584);
+            this.LbPasswordList.Size = new System.Drawing.Size(356, 439);
             this.LbPasswordList.TabIndex = 1;
             this.LbPasswordList.Click += new System.EventHandler(this.LbPasswordList_Click);
             this.LbPasswordList.DoubleClick += new System.EventHandler(this.LbPasswordList_DoubleClick);
             // 
             // BtnEnter
             // 
-            this.BtnEnter.Location = new System.Drawing.Point(456, 52);
+            this.BtnEnter.Location = new System.Drawing.Point(399, 39);
+            this.BtnEnter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnEnter.Name = "BtnEnter";
-            this.BtnEnter.Size = new System.Drawing.Size(94, 29);
+            this.BtnEnter.Size = new System.Drawing.Size(82, 22);
             this.BtnEnter.TabIndex = 2;
             this.BtnEnter.Text = "Enter";
             this.BtnEnter.UseVisualStyleBackColor = true;
@@ -85,9 +88,10 @@
             // 
             // BtnEdit
             // 
-            this.BtnEdit.Location = new System.Drawing.Point(576, 52);
+            this.BtnEdit.Location = new System.Drawing.Point(504, 39);
+            this.BtnEdit.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnEdit.Name = "BtnEdit";
-            this.BtnEdit.Size = new System.Drawing.Size(94, 29);
+            this.BtnEdit.Size = new System.Drawing.Size(82, 22);
             this.BtnEdit.TabIndex = 3;
             this.BtnEdit.Text = "Edit";
             this.BtnEdit.UseVisualStyleBackColor = true;
@@ -95,9 +99,10 @@
             // 
             // BtnDelete
             // 
-            this.BtnDelete.Location = new System.Drawing.Point(698, 52);
+            this.BtnDelete.Location = new System.Drawing.Point(611, 39);
+            this.BtnDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnDelete.Name = "BtnDelete";
-            this.BtnDelete.Size = new System.Drawing.Size(94, 29);
+            this.BtnDelete.Size = new System.Drawing.Size(82, 22);
             this.BtnDelete.TabIndex = 4;
             this.BtnDelete.Text = "Delete";
             this.BtnDelete.UseVisualStyleBackColor = true;
@@ -106,45 +111,48 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 20);
+            this.label1.Location = new System.Drawing.Point(18, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(383, 20);
+            this.label1.Size = new System.Drawing.Size(307, 15);
             this.label1.TabIndex = 5;
             this.label1.Text = "Click on a password name, then select what to do with it:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 45);
+            this.label2.Location = new System.Drawing.Point(5, 34);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(505, 20);
+            this.label2.Size = new System.Drawing.Size(401, 15);
             this.label2.TabIndex = 6;
             this.label2.Text = "You can set a default action for a double click with the radio buttons above";
             // 
             // rBtnEnter
             // 
             this.rBtnEnter.AutoSize = true;
-            this.rBtnEnter.Location = new System.Drawing.Point(38, 26);
+            this.rBtnEnter.Location = new System.Drawing.Point(33, 20);
+            this.rBtnEnter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rBtnEnter.Name = "rBtnEnter";
-            this.rBtnEnter.Size = new System.Drawing.Size(17, 16);
+            this.rBtnEnter.Size = new System.Drawing.Size(14, 13);
             this.rBtnEnter.TabIndex = 7;
             this.rBtnEnter.UseVisualStyleBackColor = true;
             // 
             // rBtnEdit
             // 
             this.rBtnEdit.AutoSize = true;
-            this.rBtnEdit.Location = new System.Drawing.Point(159, 26);
+            this.rBtnEdit.Location = new System.Drawing.Point(139, 20);
+            this.rBtnEdit.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rBtnEdit.Name = "rBtnEdit";
-            this.rBtnEdit.Size = new System.Drawing.Size(17, 16);
+            this.rBtnEdit.Size = new System.Drawing.Size(14, 13);
             this.rBtnEdit.TabIndex = 8;
             this.rBtnEdit.UseVisualStyleBackColor = true;
             // 
             // rBtnDelete
             // 
             this.rBtnDelete.AutoSize = true;
-            this.rBtnDelete.Location = new System.Drawing.Point(277, 26);
+            this.rBtnDelete.Location = new System.Drawing.Point(242, 20);
+            this.rBtnDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rBtnDelete.Name = "rBtnDelete";
-            this.rBtnDelete.Size = new System.Drawing.Size(17, 16);
+            this.rBtnDelete.Size = new System.Drawing.Size(14, 13);
             this.rBtnDelete.TabIndex = 9;
             this.rBtnDelete.UseVisualStyleBackColor = true;
             // 
@@ -152,9 +160,10 @@
             // 
             this.rBtnNone.AutoSize = true;
             this.rBtnNone.Checked = true;
-            this.rBtnNone.Location = new System.Drawing.Point(380, 26);
+            this.rBtnNone.Location = new System.Drawing.Point(332, 20);
+            this.rBtnNone.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rBtnNone.Name = "rBtnNone";
-            this.rBtnNone.Size = new System.Drawing.Size(17, 16);
+            this.rBtnNone.Size = new System.Drawing.Size(14, 13);
             this.rBtnNone.TabIndex = 10;
             this.rBtnNone.TabStop = true;
             this.rBtnNone.UseVisualStyleBackColor = true;
@@ -163,17 +172,18 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(820, 56);
+            this.label3.Location = new System.Drawing.Point(718, 42);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 20);
+            this.label3.Size = new System.Drawing.Size(35, 15);
             this.label3.TabIndex = 11;
             this.label3.Text = "None";
             // 
             // BtnAddPass
             // 
-            this.BtnAddPass.Location = new System.Drawing.Point(21, 682);
+            this.BtnAddPass.Location = new System.Drawing.Point(18, 512);
+            this.BtnAddPass.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnAddPass.Name = "BtnAddPass";
-            this.BtnAddPass.Size = new System.Drawing.Size(187, 29);
+            this.BtnAddPass.Size = new System.Drawing.Size(164, 22);
             this.BtnAddPass.TabIndex = 12;
             this.BtnAddPass.Text = "Add a new password";
             this.BtnAddPass.UseVisualStyleBackColor = true;
@@ -182,18 +192,18 @@
             // LbPassCounter
             // 
             this.LbPassCounter.AutoSize = true;
-            this.LbPassCounter.Location = new System.Drawing.Point(21, 648);
+            this.LbPassCounter.Location = new System.Drawing.Point(18, 486);
             this.LbPassCounter.Name = "LbPassCounter";
-            this.LbPassCounter.Size = new System.Drawing.Size(96, 20);
+            this.LbPassCounter.Size = new System.Drawing.Size(77, 15);
             this.LbPassCounter.TabIndex = 13;
             this.LbPassCounter.Text = "x/x password";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 23);
+            this.label4.Location = new System.Drawing.Point(5, 17);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(186, 20);
+            this.label4.Size = new System.Drawing.Size(150, 15);
             this.label4.TabIndex = 14;
             this.label4.Text = "Password entering options:";
             // 
@@ -201,9 +211,10 @@
             // 
             this.rBtnEnteringBoth.AutoSize = true;
             this.rBtnEnteringBoth.Checked = true;
-            this.rBtnEnteringBoth.Location = new System.Drawing.Point(6, 60);
+            this.rBtnEnteringBoth.Location = new System.Drawing.Point(5, 45);
+            this.rBtnEnteringBoth.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rBtnEnteringBoth.Name = "rBtnEnteringBoth";
-            this.rBtnEnteringBoth.Size = new System.Drawing.Size(228, 24);
+            this.rBtnEnteringBoth.Size = new System.Drawing.Size(184, 19);
             this.rBtnEnteringBoth.TabIndex = 15;
             this.rBtnEnteringBoth.TabStop = true;
             this.rBtnEnteringBoth.Text = "Enter Username and Password";
@@ -213,9 +224,10 @@
             // rBtnEnteringPassword
             // 
             this.rBtnEnteringPassword.AutoSize = true;
-            this.rBtnEnteringPassword.Location = new System.Drawing.Point(6, 90);
+            this.rBtnEnteringPassword.Location = new System.Drawing.Point(5, 68);
+            this.rBtnEnteringPassword.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rBtnEnteringPassword.Name = "rBtnEnteringPassword";
-            this.rBtnEnteringPassword.Size = new System.Drawing.Size(161, 24);
+            this.rBtnEnteringPassword.Size = new System.Drawing.Size(131, 19);
             this.rBtnEnteringPassword.TabIndex = 16;
             this.rBtnEnteringPassword.Text = "Enter only Password";
             this.rBtnEnteringPassword.UseVisualStyleBackColor = true;
@@ -224,9 +236,10 @@
             // rBtnEnteringUsername
             // 
             this.rBtnEnteringUsername.AutoSize = true;
-            this.rBtnEnteringUsername.Location = new System.Drawing.Point(6, 120);
+            this.rBtnEnteringUsername.Location = new System.Drawing.Point(5, 90);
+            this.rBtnEnteringUsername.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rBtnEnteringUsername.Name = "rBtnEnteringUsername";
-            this.rBtnEnteringUsername.Size = new System.Drawing.Size(166, 24);
+            this.rBtnEnteringUsername.Size = new System.Drawing.Size(134, 19);
             this.rBtnEnteringUsername.TabIndex = 17;
             this.rBtnEnteringUsername.Text = "Enter only Username";
             this.rBtnEnteringUsername.UseVisualStyleBackColor = true;
@@ -239,9 +252,11 @@
             this.groupBox1.Controls.Add(this.rBtnDelete);
             this.groupBox1.Controls.Add(this.rBtnNone);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(456, 87);
+            this.groupBox1.Location = new System.Drawing.Point(399, 65);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(517, 80);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(452, 60);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             // 
@@ -251,17 +266,19 @@
             this.groupBox2.Controls.Add(this.rBtnEnteringBoth);
             this.groupBox2.Controls.Add(this.rBtnEnteringUsername);
             this.groupBox2.Controls.Add(this.rBtnEnteringPassword);
-            this.groupBox2.Location = new System.Drawing.Point(456, 251);
+            this.groupBox2.Location = new System.Drawing.Point(399, 188);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(249, 163);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Size = new System.Drawing.Size(218, 122);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             // 
             // MainPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1109, 720);
+            this.ClientSize = new System.Drawing.Size(970, 540);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.LbPassCounter);
@@ -274,6 +291,7 @@
             this.Controls.Add(this.LbPasswordList);
             this.Controls.Add(this.BtnLogout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainPage";
             this.Text = "Client application for a password tool device";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MyClose);

@@ -110,7 +110,7 @@ int main(void)
 
 		LedOff();
 
-		// git test
+
 
 
 		//char masterPassword[64] = {"aa"};
@@ -121,6 +121,15 @@ int main(void)
 
 		//CreateUser(masterPassword, sizeof(masterPassword));
 		//MassErase();
+
+
+/*
+		uint8_t str[] = {0xfb,46, 47};
+		HAL_Delay(3000);
+		KeyBoardPrint(str, sizeof(str));
+*/
+
+
 		LoginLoop();
 
 		 /* Infinite loop */
