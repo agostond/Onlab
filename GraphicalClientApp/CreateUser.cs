@@ -41,7 +41,8 @@ namespace ClientApp
         {
             if (string.IsNullOrWhiteSpace(TbNewPassword.Text))
             {
-                MessageBox.Show("You must enter a master password!");
+                MessageBox.Show("You must enter a master password!", "Invalid input",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -53,6 +54,17 @@ namespace ClientApp
         private void TbNewPassword_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cBShow_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cBShow.Checked)
+            {
+                TbNewPassword.PasswordChar = '\0';
+            }
+            else {
+                TbNewPassword.PasswordChar = '*';
+            }
         }
     }
 }

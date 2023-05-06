@@ -41,7 +41,8 @@ namespace ClientApp
         {
             if (string.IsNullOrWhiteSpace(TbPassword.Text))
             {
-                MessageBox.Show("You must enter a master password!");
+                MessageBox.Show("You must enter a master password!", "Invalid input",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -52,7 +53,19 @@ namespace ClientApp
 
         private void BtnMassDelete_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Continue;
+            if (MessageBox.Show("Are you sure?", "Deleting all data...", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                this.DialogResult = DialogResult.Continue;
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cBShow.Checked) {
+                TbPassword.PasswordChar = '\0';
+            }
+            else {
+                TbPassword.PasswordChar = '*';
+            }
         }
     }
 }

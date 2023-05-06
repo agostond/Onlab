@@ -100,9 +100,9 @@ HunKeys keys[NumberOfKeys] = {
 	{'i',12, MOD_NO_MODIFIER},
 	{'o',18, MOD_NO_MODIFIER},
 	{'p',19, MOD_NO_MODIFIER},
-	{'ő',47, MOD_NO_MODIFIER},
+	{0xf5,47, MOD_NO_MODIFIER}, //ő
 	{'ú',48, MOD_NO_MODIFIER},
-	{'ű',49, MOD_NO_MODIFIER},
+	{0xfb,49, MOD_NO_MODIFIER}, //ű
 	{'Q',20, MOD_SHIFT_LEFT},
 	{'W',26, MOD_SHIFT_LEFT},
 	{'E',8, MOD_SHIFT_LEFT},
@@ -113,9 +113,9 @@ HunKeys keys[NumberOfKeys] = {
 	{'I',12, MOD_SHIFT_LEFT},
 	{'O',18, MOD_SHIFT_LEFT},
 	{'P',19, MOD_SHIFT_LEFT},
-	{'Ő',47, MOD_SHIFT_LEFT},
+	{0xd5,47, MOD_SHIFT_LEFT}, //Ő
 	{'Ú',48, MOD_SHIFT_LEFT},
-	{'Ű',49, MOD_SHIFT_LEFT},
+	{0xdb,49, MOD_SHIFT_LEFT}, //Ű
 	{'\\',20, MOD_ALT_RIGHT},
 	{'|',26, MOD_ALT_RIGHT},
 	{'Ä',8, MOD_ALT_RIGHT},
@@ -164,10 +164,10 @@ void InitKeyboard(void (*WritePointerParam)(uint8_t, uint8_t)){
  WritePointer = WritePointerParam;
 }
 
-void KeyBoardPrint(char *data, uint16_t length){
+void KeyBoardPrint(uint8_t *data, uint16_t length){
 	uint8_t i = 0;
 	uint8_t fail = 1;
-	while(data[i] != '\0' && i < length){
+		while(data[i] != '\0' && i < length){
 		for(uint8_t k = 0; k < NumberOfKeys; k++){
 
 			if(data[i] == keys[k].ASCII){

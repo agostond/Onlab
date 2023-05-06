@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -48,6 +49,7 @@ namespace ClientApp
         UsbHid usbhid = new UsbHid();
 
         public bool openDevice() {
+
             return usbhid.OpenDevice(0x0483, 0x5750); //device VID and PID
         }
 
@@ -101,7 +103,7 @@ namespace ClientApp
                     }
                 }
             }
-            return null;
+            throw new Exception("Communication fail");
 
 
         }
@@ -126,7 +128,7 @@ namespace ClientApp
 
         public void SendMasterPassword(string masterPassword)
         {
-            byte[] bMasterPassword = Encoding.ASCII.GetBytes(masterPassword);
+            byte[] bMasterPassword = GetStringBytes(masterPassword);
             bMasterPassword = Combine(new byte[] {id, (byte)validate}, bMasterPassword);
             bMasterPassword = Combine(bMasterPassword, new byte[] { (byte)'\0' });
             usbhid.WriteFeature(bMasterPassword);
@@ -152,7 +154,7 @@ namespace ClientApp
 
         }
 
-        public int GetEnterCount(uint which)
+        public uint GetEnterCount(uint which)
         {
             if (CheckValidPassNum(which))
             {
@@ -165,7 +167,7 @@ namespace ClientApp
             
         }
 
-        public int GetTabCount(uint which)
+        public uint GetTabCount(uint which)
         {
             if (CheckValidPassNum(which))
             {
@@ -178,9 +180,9 @@ namespace ClientApp
 
         }
 
-        public char[] GetStringFromPass(uint which, uint what)
+        public string GetStringFromPass(uint which, uint what)
         {
-            char[] PassString = new char[64];
+            byte[] PassString = new byte[64];
 
             if (what != SEND_PASS && what != SEND_USERNAME && what != SEND_PASS_NAME) {
                 throw new ArgumentException();
@@ -191,17 +193,19 @@ namespace ClientApp
             {
                 int k;
                 byte[] PassNameByte = ReadWrite(new byte[] { id, (byte)what, (byte)(which - 1) });
-                PassNameByte[65] = (byte)'\0';
+                PassNameByte[messageSize - 1] = (byte)'\0';
+                
                 for (k = 1; PassNameByte[k] != 0; k++)
                 {
-                    char value = (char)PassNameByte[k];
-                    PassString[k - 1] = value;
+                    PassString[k - 1] = PassNameByte[k];
                 }
-                PassString[k - 1] = '\0';
-
+                PassString[k - 1] = (byte)'\0';
+                
             }
 
-            return PassString;
+            string ret = ByteToUtf(PassString);
+            return ret;
+            
         }
 
         private static byte[] Combine(byte[] first, byte[] second)
@@ -221,15 +225,17 @@ namespace ClientApp
             for (int i = 0; i < PassCount; i++) {
 
                 byte[] PassNameByte = ReadWrite(new byte[] { id, SEND_PASS_NAME, (byte)i });
-                char[] PassNameChar = new char[64];
-                PassNameChar[63] = '\0';
+            
+                
+                byte[] PassNameChar = new byte[64];
+                PassNameChar[63] = (byte)'\0';
 
                 for (k = 1; PassNameByte[k] != 0; k++) {
-                    char value = (char)PassNameByte[k];
-                    PassNameChar[k-1] =  value;
+                    PassNameChar[k-1] = PassNameByte[k];
                 }
-                PassNameChar[k - 1] = '\0';
-                PassList[i] = new string(PassNameChar);
+                PassNameChar[k - 1] = (byte)'\0';
+               
+                PassList[i] = ByteToUtf(PassNameChar);
             }
 
             return PassList;
@@ -249,7 +255,7 @@ namespace ClientApp
                 {
                     usbhid.WriteFeature(new byte[] { id, ENTER_PASS, (byte)(which - 1), (byte)how });
                 }
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
             }
         }
 
@@ -261,18 +267,114 @@ namespace ClientApp
             }
         }
 
+        static string ByteToUtf(byte[] element)
+        {
+            string ret;
+            int i = 0;
+            int k = 0;
+            byte[] utfbytes = new byte[(element.Length * 2)];
+            for (i = 0; i < element.Length-1; i++, k++)
+            {
+                if (element[k] == 0) {
+                    utfbytes[i] = element[k];
+                    break;
+                }
+                else if (element[k] == 0xF5)
+                {
+                    utfbytes[i] = 0xC5;
+                    i++;
+                    utfbytes[i] = 0x91;
+                }
+
+                else if (element[k] == 0xD5)
+                {
+                    utfbytes[i] = 0xC5;
+                    i++;
+                    utfbytes[i] = 0x90;
+                }
+
+                else if (element[k] == 0xfb)
+                {
+                    utfbytes[i] = 0xC5;
+                    i++;
+                    utfbytes[i] = 0xb1;
+                }
+
+                else if (element[k] == 0xdb)
+                {
+                    utfbytes[i] = 0xC5;
+                    i++;
+                    utfbytes[i] = 0xb0;
+                }
+
+                else
+                {
+                    if (element[k] > 127)
+                    {
+                        utfbytes[i] = 195; //C3
+                        i++;
+                    }
+                    utfbytes[i] = element[k];
+                }
+            }
+            ret = Encoding.UTF8.GetString(utfbytes);
+            return ret;
+        }
+
+        static byte[] GetStringBytes(string s)
+        {
+            List<byte> bytes= new List<byte>();
+            for (int i=0;i<s.Length;i++)
+            {
+                var ss = s[i];
+                var bb = Encoding.UTF8.GetBytes(ss.ToString());
+                
+                if (s[i] == 'ő')
+                {
+                    bb[1] = 0xF5;
+                }
+                if (s[i] == 'Ő')
+                {
+                    bb[1] = 0xD5;
+                }
+                if (s[i] == 'ű')
+                {
+                    bb[1] = 0xFB;
+                }
+                if (s[i] == 'Ű')
+                {
+                    bb[1] = 0xDB;
+                }
+                
+                bytes.Add(bb.Last());
+            }
+            bytes.Add((byte)0);
+            return bytes.ToArray();
+        }
+
         public void AddEditPassword(uint which, string name, string username, string password, uint tabNum, uint enterNum) {
 
             if ((GetPassCount() + 1) > GetMaxPassCount() && which == 0) { 
                 throw new Exception("Device is full");
             }
 
+            
+            byte[] bName = GetStringBytes(name);// Encoding.GetEncoding("ISO-8859-2").GetBytes(name);
+            bName = Combine(bName, new byte[] { (byte)'\0' });
+            byte[] bUsername = GetStringBytes(username);//Encoding.GetEncoding("iso-8859-2").GetBytes(username);
+            bUsername = Combine(bUsername, new byte[] { (byte)'\0' });
+            byte[] bPassword = GetStringBytes(password);// Encoding.GetEncoding("iso-8859-2").GetBytes(password);
+            bPassword = Combine(bPassword, new byte[] { (byte)'\0' });
+            
+
+            /*
             byte[] bName = Encoding.ASCII.GetBytes(name);
             bName = Combine(bName, new byte[] { (byte)'\0' });
             byte[] bUsername = Encoding.ASCII.GetBytes(username);
             bUsername = Combine(bUsername, new byte[] { (byte)'\0' });
             byte[] bPassword = Encoding.ASCII.GetBytes(password);
             bPassword = Combine(bPassword, new byte[] { (byte)'\0' });
+            */
 
             byte[] firstRep;
             byte[] secondRep;

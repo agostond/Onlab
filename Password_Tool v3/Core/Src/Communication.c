@@ -21,6 +21,12 @@ void failCom(){
 	HAL_GPIO_WritePin(Led_GPIO_Port, Led_Pin, SET);
 }
 
+void clearReportBuffer(){
+	for(uint8_t i = 0; i < USB_REPORT_SIZE-1; i++){
+		report_buffer[i] = 0;
+	}
+
+}
 
 void ClearNewFeature(){
 
@@ -372,6 +378,7 @@ void FeatureToPass(uint8_t type){
 
 	flag_rx = 0;
 
+	clearReportBuffer();
 	while(flag_rx == 0);
 
 	//check for valid input
@@ -388,6 +395,7 @@ void FeatureToPass(uint8_t type){
 	Pass.password[i] = '\0';
 	flag_rx = 0;
 
+	clearReportBuffer();
 	//wait for next input
 	while(flag_rx == 0);
 
@@ -403,7 +411,7 @@ void FeatureToPass(uint8_t type){
 		Pass.username[i] = report_buffer[i+1];
 	}
 	Pass.username[i] = '\0';
-
+	clearReportBuffer();
 	//adding password
 	if(type == 5){
 		if(CreateRecord(&Pass) != F_SUCCESS){

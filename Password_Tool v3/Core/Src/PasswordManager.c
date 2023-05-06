@@ -13,7 +13,7 @@
 uint8_t WritePass(uint8_t which, uint8_t how){
 
 
-	HAL_Delay(3000);
+	HAL_Delay(1000);
 
 
 	//uint32_t FlashAddress = GetValidBlockAddress();
