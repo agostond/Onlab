@@ -8,7 +8,7 @@
 #include "stm32f1xx_hal_flash_ex.h"
 
 #define NUMOFPAGES 12
-#define MAXRECORDSNUM 8
+#define MAXRECORDSNUM 32
 #define EMPTY_FLASH_WORD 0xFFFFFFFF
 
 #define FLASH_USER_DATA_ADDRESS 0x800DC00

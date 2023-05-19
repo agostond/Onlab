@@ -9,6 +9,8 @@
 
 extern uint8_t flag_rx;
 
+extern uint8_t authenticated;
+
 extern uint8_t report_buffer[USB_REPORT_SIZE];
 
 
@@ -163,6 +165,7 @@ void LoginLoop(){
 				{
 					SendStatus(SUCCES, report_buffer[CHECK_SUM_PLACE]);
 					flag_rx = 0;
+					authenticated = 1;
 					return;
 				}
 				else
@@ -184,6 +187,7 @@ void LoginLoop(){
 				{
 					SendStatus(SUCCES, report_buffer[CHECK_SUM_PLACE]);
 					flag_rx = 0;
+					authenticated = 1;
 					return;
 				}
 				else

@@ -137,7 +137,7 @@ int main(void)
 //		int isAuth = Authenticate(hashedHMAC, salt);
 
 
-		LoginLoop();
+
 
 
 		 /* Infinite loop */

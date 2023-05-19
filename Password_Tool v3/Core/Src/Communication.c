@@ -10,6 +10,7 @@ uint8_t newfeature[USB_REPORT_SIZE];
 uint8_t report_buffer[USB_REPORT_SIZE];		//Variable to receive the report buffer
 uint8_t flag = 0;			//Variable to store the button flag
 uint8_t flag_rx = 0;			//Variable to store the reception flag
+uint8_t authenticated = 0; // Variable for user status
 
 void failCom(){
 	for(uint8_t i = 0; i < 10; i++){
@@ -214,6 +215,10 @@ uint8_t SendMaxPassCount(uint8_t checksum)
 
 void HandleFeatureReport(){
 		 //feture report arrived
+		if(!authenticated){
+			LoginLoop();
+		}
+		if(authenticated){
 		  if (flag_rx == 1){
 			  switch (report_buffer[0]){
 
@@ -353,6 +358,7 @@ void HandleFeatureReport(){
 			  }
 			  flag_rx = 0;
 		  }
+		}
  	 }
 
 
