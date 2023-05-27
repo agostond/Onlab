@@ -41,10 +41,6 @@ int GetNextSerialNum();
 int NumberOfValidRecords();
 int WriteDataToFlash(uint8_t* data, size_t n_bytes, uint32_t flashAddress);
 
-//void ReadWordsFromFlash(uint32_t FlashAddress, uint32_t* buffer, int numberofwords);
-
-//uint32_t SearchRecordInFlash(char* key, uint32_t FlashAddress);
-
 int ReadRecordFromAddress(uint32_t FlashAddress, Record* RecordBuffer);
 
 int IsValid(uint32_t FlashAddress);

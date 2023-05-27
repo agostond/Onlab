@@ -458,7 +458,7 @@ int CleanUpFlash()
 	uint32_t tempAddress;
 	Record RxBuffer;
 
-	for(i; i < numberOfRecords; i++)
+	for(;i < numberOfRecords; i++)
 	{
 
 		if(IsValid(currentFlashAddressA))
@@ -495,7 +495,9 @@ void SetFlashAddresses(uint32_t *FlashAddressA, uint32_t *FlashAddressB)
 	*FlashAddressA = GetValidBlockAddress();
 
 
-	(*FlashAddressA == FLASH_START_ADDRESS_FIRST_BLOCK) ? (*FlashAddressB = FLASH_START_ADDRESS_SECOND_BLOCK) : (*FlashAddressB = FLASH_START_ADDRESS_FIRST_BLOCK);
+	(*FlashAddressA == FLASH_START_ADDRESS_FIRST_BLOCK) ?
+			(*FlashAddressB = FLASH_START_ADDRESS_SECOND_BLOCK) :
+			(*FlashAddressB = FLASH_START_ADDRESS_FIRST_BLOCK);
 
 
 }

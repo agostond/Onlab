@@ -9,7 +9,7 @@
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
 typedef struct
-	{
+{
 		uint8_t MODIFIER;
 		uint8_t RESERVED;
 		uint8_t KEYCODE1;
@@ -18,7 +18,7 @@ typedef struct
 		uint8_t KEYCODE4;
 		uint8_t KEYCODE5;
 		uint8_t KEYCODE6;
-	}subKeyBoard;
+} subKeyBoard;
 
 void write (uint8_t key, uint8_t modifier);
 

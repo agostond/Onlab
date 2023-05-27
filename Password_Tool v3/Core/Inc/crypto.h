@@ -8,15 +8,7 @@
 #include "sha1.h"
 
 
-typedef void (*RNG_Function)(uint8_t* , unsigned );
-
-
 void InitContext();
-
-
-void RNG_Init();
-void RNG_Set(RNG_Function rng);
-RNG_Function RNG_Get();
 
 void EncryptDecrypt(uint8_t *key, uint8_t* nonce, uint8_t* bytes, size_t n_bytes);
 void GenerateRandom_ADC(uint8_t* randomBytes, size_t size);

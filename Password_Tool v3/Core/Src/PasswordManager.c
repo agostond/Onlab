@@ -6,44 +6,45 @@
 
 
 
-
-
-
-
-uint8_t WritePass(uint8_t which, uint8_t how){
+uint8_t WritePass(uint8_t which, uint8_t how)
+{
 
 
 	HAL_Delay(1000);
 
 
-	//uint32_t FlashAddress = GetValidBlockAddress();
 	Record RxBuffer;
 
-	int error_code = NthRecord(which, 1, &RxBuffer);
+	NthRecord(which, 1, &RxBuffer);
 
-
-
-	switch (how){
-		case 0: {
+	switch (how)
+	{
+		case 0:
+		{
 			KeyBoardPrint(RxBuffer.password, sizeof(RxBuffer.password));
 			break;
 		}
-		case 1:{
+		case 1:
+		{
 			KeyBoardPrint(RxBuffer.username, sizeof(RxBuffer.username));
 			break;
 		}
-		case 2: {
+		case 2:
+		{
 			KeyBoardPrint(RxBuffer.username, sizeof(RxBuffer.username));
-			for(uint8_t i = 0; i < RxBuffer.tabNum; i++){
+			for(uint8_t i = 0; i < RxBuffer.tabNum; i++)
+			{
 				KeyBoardPrint("\t", 1);
 			}
 			KeyBoardPrint(RxBuffer.password, sizeof(RxBuffer.password));
-			for(uint8_t i = 0; i < RxBuffer.enterNum; i++){
+			for(uint8_t i = 0; i < RxBuffer.enterNum; i++)
+			{
 					KeyBoardPrint("\n", 1);
 			}
 			break;
 		}
-		default: {
+		default:
+		{
 			return 0;
 		}
 	}
@@ -57,14 +58,14 @@ uint8_t CreateRecord(Record* NewRecord)
 	return NewRecordToFlash(NewRecord);
 }
 
-uint8_t EditRecord(Record* NewRecord, uint8_t which){
+uint8_t EditRecord(Record* NewRecord, uint8_t which)
+{
 
 
-	// invalidáljuk
-
+	// Invalidate selected record.
 	MakeNthInvalid(which);
 
-	// új record létrehozása
+	// We have to create a new record.
 	return CreateRecord(NewRecord);
 
 
@@ -72,12 +73,11 @@ uint8_t EditRecord(Record* NewRecord, uint8_t which){
 
 void GetNthRecord(Record* RxBuffer, int n)
 {
-	uint32_t flashAddress = GetValidBlockAddress();
 	int errorCode = NthRecord(n, 1, RxBuffer);
 	// CRC ellenorzese
 	if(errorCode != F_SUCCESS)
 	{
-		//...
+		failCom();
 	}
 
 }

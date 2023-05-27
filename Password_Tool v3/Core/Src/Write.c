@@ -6,7 +6,8 @@
 
 subKeyBoard keyBoardHIDsub = {0,0,0,0,0,0,0,0};
 
-void write (uint8_t key, uint8_t modifier){
+void write (uint8_t key, uint8_t modifier)
+{
 
 	keyBoardHIDsub.KEYCODE1=key;
 	keyBoardHIDsub.MODIFIER=modifier;

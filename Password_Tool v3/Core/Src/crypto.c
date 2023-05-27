@@ -6,37 +6,16 @@
 
 	extern ADC_HandleTypeDef hadc1;
 
-
-
-
 	struct chacha20_context chacha;
-	static RNG_Function RandomGenerator = 0;
+
 
 	int pbCounter = 0;
 
-
-	void RNG_Set(RNG_Function rng)
-	{
-		RandomGenerator = rng;
-	}
-	RNG_Function RNG_Get()
-	{
-		return RandomGenerator;
-	}
-
-	void RNG_Init()
-	{
-		RNG_Set(&GenerateRandom_ADC);
-	}
-
 	void EncryptDecrypt(uint8_t *key, uint8_t* nonce, uint8_t* bytes, size_t n_bytes)
 	{
-		//InitContext();
 		chacha20_init_context(&chacha, key, nonce, 0);
 		chacha20_xor(&chacha, bytes, n_bytes);
 	}
-
-
 
 	void GenerateRandom_ADC(uint8_t* randomBytes, unsigned size)
 	{

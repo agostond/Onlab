@@ -128,25 +128,11 @@ int main(void)
   	  InitKeyboard(&write);
   	  	  /* USER CODE BEGIN 2 */
 
-		LedOff();
-
-//		EraseInvalidBlock(FLASH_USER_DATA_ADDRESS, 1);
-//		MassErase();
-
-
-//		int isAuth = Authenticate(hashedHMAC, salt);
-
-
-
-
-
 		 /* Infinite loop */
 		  /* USER CODE BEGIN WHILE */
 		 while (1){
 
 			 HandleFeatureReport();
-
-
 
 		/* USER CODE END WHILE */
 		 }
