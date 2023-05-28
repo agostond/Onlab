@@ -1,6 +1,8 @@
 #ifndef __PM_H
 #define __PM_H
 
+
+//struct for storing records
 typedef struct __attribute__((packed, aligned(4)))
 {
 	uint16_t isValid;
@@ -15,13 +17,14 @@ typedef struct __attribute__((packed, aligned(4)))
 
 } Record;
 
+
+	uint8_t WritePass(uint8_t which, uint8_t how);
+
 	void InitPass();
 
 	uint8_t NumberOfRecords(uint32_t FlashAddress);
 
 	void GetName(uint32_t FlashAddress, uint8_t n, char* name);
-
-	uint8_t WritePass(uint8_t which, uint8_t how);
 
 	uint8_t CreateRecord(Record* NewRecord);
 

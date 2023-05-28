@@ -4,9 +4,11 @@
 #include "PasswordManager.h"
 #include "Write.h"
 
-
+//function pointer for writeing with a keyboard
 void (*WritePointer)(uint8_t, uint8_t) = 0;
 
+
+//stores the hungarian keyboard characters and keyboard codes
 HunKeys keys[NumberOfKeys] = {
 	{'0',53, MOD_NO_MODIFIER},
 	{'1',30, MOD_NO_MODIFIER},
@@ -18,10 +20,10 @@ HunKeys keys[NumberOfKeys] = {
 	{'7',36, MOD_NO_MODIFIER},
 	{'8',37, MOD_NO_MODIFIER},
 	{'9',38, MOD_NO_MODIFIER},
-	{'ö',39, MOD_NO_MODIFIER},
-	{'ü',45, MOD_NO_MODIFIER},
-	{'ó',46, MOD_NO_MODIFIER},
-	{'§',53, MOD_SHIFT_LEFT},
+	{182,39, MOD_NO_MODIFIER}, //ö
+	{188,45, MOD_NO_MODIFIER}, //ü
+	{179,46, MOD_NO_MODIFIER}, //ó
+	{0xa7,53, MOD_SHIFT_LEFT},  	//§
 	{'\'',30, MOD_SHIFT_LEFT},
 	{'"',31, MOD_SHIFT_LEFT},
 	{'+',32, MOD_SHIFT_LEFT},
@@ -31,31 +33,12 @@ HunKeys keys[NumberOfKeys] = {
 	{'=',36, MOD_SHIFT_LEFT},
 	{'(',37, MOD_SHIFT_LEFT},
 	{')',38, MOD_SHIFT_LEFT},
-	{'Ö',39, MOD_SHIFT_LEFT},
-	{'Ü',45, MOD_SHIFT_LEFT},
-	{'Ó',46, MOD_SHIFT_LEFT},
+	{150,39, MOD_SHIFT_LEFT}, //Ö
+	{156,45, MOD_SHIFT_LEFT}, //Ü
+	{147,46, MOD_SHIFT_LEFT}, //Ó
 	{'~',30, MOD_ALT_RIGHT},
-	{'ˇ',31, MOD_ALT_RIGHT},
-	{'ˇ',44, MOD_NO_MODIFIER},
 	{'^',32, MOD_ALT_RIGHT},
-	{'^',44, MOD_NO_MODIFIER},
-	{'˘',33, MOD_ALT_RIGHT},
-	{'˘',44, MOD_NO_MODIFIER},
-	{'°',34, MOD_ALT_RIGHT},
-	{'°',44, MOD_NO_MODIFIER},
-	{'˛',35, MOD_ALT_RIGHT},
-	{'˛',44, MOD_NO_MODIFIER},
 	{'`',36, MOD_ALT_RIGHT},
-	{'˙',37, MOD_ALT_RIGHT},
-	{'˙',44, MOD_NO_MODIFIER},
-	{'´',38, MOD_ALT_RIGHT},
-	{'´',44, MOD_NO_MODIFIER},
-	{'˝',39, MOD_ALT_RIGHT},
-	{'˝',44, MOD_NO_MODIFIER},
-	{'¨',45, MOD_ALT_RIGHT},
-	{'¨',44, MOD_NO_MODIFIER},
-	{'¸',46, MOD_ALT_RIGHT},
-	{'¸',44, MOD_NO_MODIFIER},
 	{'\t',43, MOD_NO_MODIFIER},
 	{'\n',40, MOD_NO_MODIFIER},
 	{' ',44, MOD_NO_MODIFIER},
@@ -68,8 +51,8 @@ HunKeys keys[NumberOfKeys] = {
 	{'j',13, MOD_NO_MODIFIER},
 	{'k',14, MOD_NO_MODIFIER},
 	{'l',15, MOD_NO_MODIFIER},
-	{'é',51, MOD_NO_MODIFIER},
-	{'á',52, MOD_NO_MODIFIER},
+	{169,51, MOD_NO_MODIFIER}, //é
+	{0xa1,52, MOD_NO_MODIFIER}, //á
 	{'A',4, MOD_SHIFT_LEFT},
 	{'S',22, MOD_SHIFT_LEFT},
 	{'D',7, MOD_SHIFT_LEFT},
@@ -79,17 +62,12 @@ HunKeys keys[NumberOfKeys] = {
 	{'J',13, MOD_SHIFT_LEFT},
 	{'K',14, MOD_SHIFT_LEFT},
 	{'L',15, MOD_SHIFT_LEFT},
-	{'É',51, MOD_SHIFT_LEFT},
-	{'Á',52, MOD_SHIFT_LEFT},
-	{'ä',4, MOD_ALT_RIGHT},
-	{'đ',22, MOD_ALT_RIGHT},
-	{'Đ',7, MOD_ALT_RIGHT},
+	{137,51, MOD_SHIFT_LEFT}, //É
+	{129,52, MOD_SHIFT_LEFT}, //Á
 	{'[',9, MOD_ALT_RIGHT},
 	{']',10, MOD_ALT_RIGHT},
-	{'ł',14, MOD_ALT_RIGHT},
-	{'Ł',15, MOD_ALT_RIGHT},
 	{'$',51, MOD_ALT_RIGHT},
-	{'ß',52, MOD_ALT_RIGHT},
+	{159,52, MOD_ALT_RIGHT}, //ß
 	{'q',20, MOD_NO_MODIFIER},
 	{'w',26, MOD_NO_MODIFIER},
 	{'e',8, MOD_NO_MODIFIER},
@@ -100,9 +78,9 @@ HunKeys keys[NumberOfKeys] = {
 	{'i',12, MOD_NO_MODIFIER},
 	{'o',18, MOD_NO_MODIFIER},
 	{'p',19, MOD_NO_MODIFIER},
-	{0xf5,47, MOD_NO_MODIFIER}, //ő
-	{'ú',48, MOD_NO_MODIFIER},
-	{0xfb,49, MOD_NO_MODIFIER}, //ű
+	{245,47, MOD_NO_MODIFIER}, //ő
+	{186,48, MOD_NO_MODIFIER}, //ú
+	{251,49, MOD_NO_MODIFIER}, //ű
 	{'Q',20, MOD_SHIFT_LEFT},
 	{'W',26, MOD_SHIFT_LEFT},
 	{'E',8, MOD_SHIFT_LEFT},
@@ -114,15 +92,14 @@ HunKeys keys[NumberOfKeys] = {
 	{'O',18, MOD_SHIFT_LEFT},
 	{'P',19, MOD_SHIFT_LEFT},
 	{0xd5,47, MOD_SHIFT_LEFT}, //Ő
-	{'Ú',48, MOD_SHIFT_LEFT},
+	{154,48, MOD_SHIFT_LEFT}, //Ú
 	{0xdb,49, MOD_SHIFT_LEFT}, //Ű
 	{'\\',20, MOD_ALT_RIGHT},
 	{'|',26, MOD_ALT_RIGHT},
-	{'Ä',8, MOD_ALT_RIGHT},
-	{'€',24, MOD_ALT_RIGHT},
-	{'÷',47, MOD_ALT_RIGHT},
-	{'×',48, MOD_ALT_RIGHT},
-	{'¤',49, MOD_ALT_RIGHT},
+	{132,8, MOD_ALT_RIGHT}, //Ä
+	{172,24, MOD_ALT_RIGHT}, //€
+	{183,47, MOD_ALT_RIGHT}, //÷
+	{151,48, MOD_ALT_RIGHT}, //×
 	{'y',29, MOD_NO_MODIFIER},
 	{'x',27, MOD_NO_MODIFIER},
 	{'c',6, MOD_NO_MODIFIER},
@@ -153,18 +130,34 @@ HunKeys keys[NumberOfKeys] = {
 	{';',54, MOD_ALT_RIGHT},
 	{'>',55, MOD_ALT_RIGHT},
 	{'*',56, MOD_ALT_RIGHT},
-	{'í',100, MOD_NO_MODIFIER},
-	{'Í',100, MOD_SHIFT_LEFT},
+	{173,100, MOD_NO_MODIFIER}, //í
+	{141,100, MOD_SHIFT_LEFT}, //Í
 	{'<',100, MOD_ALT_RIGHT},
 	{'\0',0, MOD_NO_MODIFIER}, //END OF STRUCT
 };
 
-
+/**
+  * @brief Initialize the writeing method
+  *
+  * @note Current version uses writeing with USB reports
+  *
+  * @param WritePointerParam: A writeing function with two uint_8t param, first for keycode second is for modifier.
+  *
+  */
 void InitKeyboard(void (*WritePointerParam)(uint8_t, uint8_t)){
  WritePointer = WritePointerParam;
 }
 
-void KeyBoardPrint(uint8_t *data, uint16_t length){
+
+/**
+  * @brief General typing function which uses "WritePointer" as write method
+  *
+  * @param data: The string to type.
+  *
+  * @param length: Size of data.
+  *
+  */
+void KeyBoardPrint(char *data, uint16_t length){
 	uint8_t i = 0;
 	uint8_t fail = 1;
 		while(data[i] != '\0' && i < length){
@@ -172,6 +165,7 @@ void KeyBoardPrint(uint8_t *data, uint16_t length){
 
 			if(data[i] == keys[k].ASCII){
 					WritePointer(keys[k].usage_id, keys[k].modifier);
+				//for altgr + keys we have to press the button twice
 				if(data[i] == keys[k+1].ASCII){
 					WritePointer(keys[k+1].usage_id, keys[k+1].modifier);
 				}
@@ -184,9 +178,7 @@ void KeyBoardPrint(uint8_t *data, uint16_t length){
 		}
 		if(fail == 1){
 			failCom();
-			return;
 		}
-
 		i++;
 	}
 

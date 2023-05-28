@@ -7,11 +7,11 @@
 #include "flash_handler.h"
 
 
-extern uint8_t flag_rx;
+extern uint8_t flag_rx; 						  //Flag which sets if a feature report arrives. Manual reset needed!
 
-extern uint8_t authenticated;
+extern uint8_t authenticated; 				     // Variable for user status
 
-extern uint8_t report_buffer[USB_REPORT_SIZE];
+extern uint8_t report_buffer[USB_REPORT_SIZE];  // Array which stores arrived feature reports.
 
 
 
@@ -108,7 +108,12 @@ int CreateUser(char* password, size_t size)
 }
 
 
-
+/**
+  * @brief In first launch or after logout / power reset this function grants acces to use the device.
+  *
+  * @note The device will stay in this function until a new user creation or succes login happening.
+  *
+  */
 void LoginLoop()
 {
 

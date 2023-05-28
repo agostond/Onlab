@@ -45,182 +45,40 @@
 #define DELETE_ALL 13
 
 
-
-
-/**
-  * @brief Sends the current number of passwords stored on the device.
-  *
-  *
-  * @param  checksum: the checksum arrived from client.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendPassCount(uint8_t checksum);
-
-/**
-  * @brief Sends the name of the selected record.
-  *
-  *
-  * @param checksum: the checksum arrived from client.
-  * @param which: defines the nth record to send.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendName(uint8_t which, uint8_t checksum);
-
-/**
-  * @brief Sends the password of the selected record.
-  *
-  *
-  * @param checksum: the checksum arrived from client.
-  * @param which: defines the nth record to send.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendPassword(uint8_t which, uint8_t checksum);
-
-/**
-  * @brief Sends the username of the selected record.
-  *
-  *
-  * @param checksum: the checksum arrived from client.
-  * @param which: defines the nth record to send.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendUsername(uint8_t which, uint8_t checksum);
-
-/**
-  * @brief Sends the number of tabs pressed between auth. credentials.
-  *
-  *
-  * @param checksum: the checksum arrived from client.
-  * @param which: defines the nth record to send.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendTabNum(uint8_t which, uint8_t checksum);
-
-/**
-  * @brief Sends the number of enters after auth credentials are entered.
-  *
-  *
-  * @param checksum: the checksum arrived from client.
-  * @param which: defines the nth record to send.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendEnterNum(uint8_t which, uint8_t checksum);
-
-/**
-  * @brief Sends the status of authentication
-  *
-  *
-  * @param checksum: the checksum arrived from client.
-  * @param status: status of login state.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendStatus(uint8_t status, uint8_t checksum);
-
-/**
-  * @brief Sends the maximum number of records that can be stored.
-  *
-  *
-  * @param checksum: the checksum arrived from client.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendMaxPassCount(uint8_t checksum);
-
-/**
-  * @brief Sends an arbitrary string to client.
-  *
-  *
-  * @param str[]: the string to send.
-  * @param checksum: the checksum arrived from client.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendString(char str[], uint8_t checksum);
-
-/**
-  * @brief Sends arbitrary bytes to client.
-  *
-  *
-  * @param data: the bytes to send.
-  * @param length: the length of the array to prevent buffer overflow
-  * @param checksum: the checksum arrived from client.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendData(uint8_t* data, uint8_t length, uint8_t checksum);
-
-/**
-  * @brief Sends an arbitrary byte to client.
-  *
-  *
-  * @param data: the single byte to send.
-  *
-  * @param checksum: the checksum arrived from client.
-  *
-  * @retval succes or fail
-  */
-uint8_t SendSingleData(uint8_t data, uint8_t checksum);
-
-/**
-  * @brief Clears the feature buffer.
-  *
-  */
-void ClearNewFeature();
-
-/**
-  * @brief Used error detection. The led on the device starts blinking.
-  *
-  */
 void failCom();
 
-/**
-  * @brief Creates a record from three specified feature reports.
-  *
-  * @note First report: record name, number of tabs, number of enters
-  *		  Second report: password
-  *		  Third report: username
-  *
-  * @param type: defines if the record is new or used to edit an existing record.
-  */
-void FeatureToPass(uint8_t type);
+void clearReportBuffer();
 
-/**
-  * @brief Method used to handle reports.
-  *
-  */
+void ClearNewFeature();
+
+uint8_t SendSingleData(uint8_t data, uint8_t checksum);
+
+uint8_t SendData(uint8_t* data, uint8_t length, uint8_t checksum);
+
+uint8_t SendString(char str[], uint8_t checksum);
+
+uint8_t SendName(uint8_t which, uint8_t checksum);
+
+uint8_t SendPassword(uint8_t which, uint8_t checksum);
+
+uint8_t SendUsername(uint8_t which, uint8_t checksum);
+
+uint8_t SendTabNum(uint8_t which, uint8_t checksum);
+
+uint8_t SendEnterNum(uint8_t which, uint8_t checksum);
+
+uint8_t SendPassCount(uint8_t checksum);
+
+uint8_t SendStatus(uint8_t status, uint8_t checksum);
+
+uint8_t SendMaxPassCount(uint8_t checksum);
+
 void HandleFeatureReport();
 
-/**
-  * @brief Only handles specific reports used for user authentication
-  *
-  * @param masterPassword: stores the password arrived from the client
-  * @param status: if the client asks the status
-  * @param randBytes: the array of random bytes
-  *
-  * @retval succes of fail
-  *
-  */
+void FeatureToPass(uint8_t type);
+
 uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status, uint8_t *randBytes);
 
-/**
-  * @brief Method to send random bytes to the client.
-  * @note	This method is used to send random bytes
-  *			which are required for the Challenge-
-  *			Response authentication.
-  *
-  *	@param randBytes: the array of random bytes.
-  *	@param length: the length of the array (it is a must to prevent buffer overflow).
-  *	@param status: if the client asks the status.
-  */
 void SendRandomLoop(uint8_t *randBytes, int length,  uint8_t status);
-
-
 
 #endif

@@ -79,9 +79,19 @@ static void MX_CRC_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+
+	/**
+	 * @brief Turns a blue led on.
+	 *
+	 */
 	void LedOn(){
 		HAL_GPIO_WritePin(Led_GPIO_Port, Led_Pin, RESET);
 	}
+
+	/**
+	 * @brief Turns a blue led off.
+	 *
+	 */
 	void LedOff(){
 		HAL_GPIO_WritePin(Led_GPIO_Port, Led_Pin, SET);
 	}

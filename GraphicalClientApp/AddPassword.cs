@@ -22,13 +22,14 @@ namespace ClientApp
         public string NewPass
         {
             get { return newPass; }
-            private set {
+            private set
+            {
                 if (value != null)
                 {
                     newPass = value;
                 }
             }
-        
+
         }
 
         public string NewName
@@ -57,7 +58,8 @@ namespace ClientApp
 
         }
 
-        public uint NewTabNum {
+        public uint NewTabNum
+        {
             get { return newTabNum; }
             private set { newTabNum = value; }
         }
@@ -72,13 +74,16 @@ namespace ClientApp
             InitializeComponent();
         }
 
-        public void Init(string btnName, string oldPass = null, string oldName = null, string oldUser = null, uint oldTabNum = 1, uint oldEnterNum = 1) {
-            
-            if (btnName != null) { 
+        public void Init(string btnName, string oldPass = null, string oldName = null, string oldUser = null, uint oldTabNum = 1, uint oldEnterNum = 1)
+        {
+
+            if (btnName != null)
+            {
                 BtnSend.Text = btnName;
             }
 
-            if (oldPass != null) { 
+            if (oldPass != null)
+            {
                 TbNewPassword.Text = oldPass;
             }
 
@@ -119,10 +124,10 @@ namespace ClientApp
                 NewEnterNum = (uint)nUDEnter.Value;
                 NewPass = TbNewPassword.Text;
                 NewName = TbNewPageName.Text;
-                NewUser= TbNewUsername.Text;
+                NewUser = TbNewUsername.Text;
                 this.DialogResult = DialogResult.OK;
             }
-    
+
 
         }
 
@@ -141,6 +146,11 @@ namespace ClientApp
             {
                 TbNewPassword.PasswordChar = '*';
             }
+        }
+
+        private void TbNewPassword_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

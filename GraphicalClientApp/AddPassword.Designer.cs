@@ -28,185 +28,169 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.BtnSend = new System.Windows.Forms.Button();
-            this.BtnCancel = new System.Windows.Forms.Button();
-            this.TbNewPageName = new System.Windows.Forms.TextBox();
-            this.TbNewUsername = new System.Windows.Forms.TextBox();
-            this.TbNewPassword = new System.Windows.Forms.TextBox();
-            this.nUDTab = new System.Windows.Forms.NumericUpDown();
-            this.nUDEnter = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cBShow = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.nUDTab)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUDEnter)).BeginInit();
-            this.SuspendLayout();
+            BtnSend = new Button();
+            BtnCancel = new Button();
+            TbNewPageName = new TextBox();
+            TbNewUsername = new TextBox();
+            TbNewPassword = new TextBox();
+            nUDTab = new NumericUpDown();
+            nUDEnter = new NumericUpDown();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            label5 = new Label();
+            cBShow = new CheckBox();
+            ((System.ComponentModel.ISupportInitialize)nUDTab).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nUDEnter).BeginInit();
+            SuspendLayout();
             // 
             // BtnSend
             // 
-            this.BtnSend.Location = new System.Drawing.Point(11, 289);
-            this.BtnSend.Name = "BtnSend";
-            this.BtnSend.Size = new System.Drawing.Size(94, 29);
-            this.BtnSend.TabIndex = 0;
-            this.BtnSend.Text = "Send";
-            this.BtnSend.UseVisualStyleBackColor = true;
-            this.BtnSend.Click += new System.EventHandler(this.BtnSend_Click);
+            BtnSend.Location = new Point(11, 289);
+            BtnSend.Name = "BtnSend";
+            BtnSend.Size = new Size(94, 29);
+            BtnSend.TabIndex = 0;
+            BtnSend.Text = "Send";
+            BtnSend.UseVisualStyleBackColor = true;
+            BtnSend.Click += BtnSend_Click;
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(522, 289);
-            this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(94, 29);
-            this.BtnCancel.TabIndex = 1;
-            this.BtnCancel.Text = "Cancel";
-            this.BtnCancel.UseVisualStyleBackColor = true;
-            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            BtnCancel.Location = new Point(522, 289);
+            BtnCancel.Name = "BtnCancel";
+            BtnCancel.Size = new Size(94, 29);
+            BtnCancel.TabIndex = 1;
+            BtnCancel.Text = "Cancel";
+            BtnCancel.UseVisualStyleBackColor = true;
+            BtnCancel.Click += BtnCancel_Click;
             // 
             // TbNewPageName
             // 
-            this.TbNewPageName.Location = new System.Drawing.Point(173, 41);
-            this.TbNewPageName.MaxLength = 15;
-            this.TbNewPageName.Name = "TbNewPageName";
-            this.TbNewPageName.Size = new System.Drawing.Size(290, 27);
-            this.TbNewPageName.TabIndex = 2;
+            TbNewPageName.Location = new Point(173, 41);
+            TbNewPageName.MaxLength = 15;
+            TbNewPageName.Name = "TbNewPageName";
+            TbNewPageName.Size = new Size(290, 27);
+            TbNewPageName.TabIndex = 2;
             // 
             // TbNewUsername
             // 
-            this.TbNewUsername.Location = new System.Drawing.Point(173, 93);
-            this.TbNewUsername.MaxLength = 31;
-            this.TbNewUsername.Name = "TbNewUsername";
-            this.TbNewUsername.Size = new System.Drawing.Size(290, 27);
-            this.TbNewUsername.TabIndex = 3;
+            TbNewUsername.Location = new Point(173, 93);
+            TbNewUsername.MaxLength = 31;
+            TbNewUsername.Name = "TbNewUsername";
+            TbNewUsername.Size = new Size(290, 27);
+            TbNewUsername.TabIndex = 3;
             // 
             // TbNewPassword
             // 
-            this.TbNewPassword.Location = new System.Drawing.Point(173, 141);
-            this.TbNewPassword.MaxLength = 63;
-            this.TbNewPassword.Name = "TbNewPassword";
-            this.TbNewPassword.PasswordChar = '*';
-            this.TbNewPassword.Size = new System.Drawing.Size(290, 27);
-            this.TbNewPassword.TabIndex = 4;
+            TbNewPassword.Location = new Point(173, 141);
+            TbNewPassword.MaxLength = 63;
+            TbNewPassword.Name = "TbNewPassword";
+            TbNewPassword.PasswordChar = '*';
+            TbNewPassword.Size = new Size(290, 27);
+            TbNewPassword.TabIndex = 4;
+            TbNewPassword.TextChanged += TbNewPassword_TextChanged;
             // 
             // nUDTab
             // 
-            this.nUDTab.Location = new System.Drawing.Point(406, 177);
-            this.nUDTab.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nUDTab.Name = "nUDTab";
-            this.nUDTab.Size = new System.Drawing.Size(57, 27);
-            this.nUDTab.TabIndex = 5;
-            this.nUDTab.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            nUDTab.Location = new Point(406, 177);
+            nUDTab.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            nUDTab.Name = "nUDTab";
+            nUDTab.Size = new Size(57, 27);
+            nUDTab.TabIndex = 5;
+            nUDTab.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // nUDEnter
             // 
-            this.nUDEnter.Location = new System.Drawing.Point(406, 217);
-            this.nUDEnter.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nUDEnter.Name = "nUDEnter";
-            this.nUDEnter.Size = new System.Drawing.Size(57, 27);
-            this.nUDEnter.TabIndex = 6;
-            this.nUDEnter.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            nUDEnter.Location = new Point(406, 217);
+            nUDEnter.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            nUDEnter.Name = "nUDEnter";
+            nUDEnter.Size = new Size(57, 27);
+            nUDEnter.TabIndex = 6;
+            nUDEnter.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(49, 41);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 20);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "New page name";
+            label1.AutoSize = true;
+            label1.Location = new Point(49, 41);
+            label1.Name = "label1";
+            label1.Size = new Size(118, 20);
+            label1.TabIndex = 7;
+            label1.Text = "New page name";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(49, 93);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(111, 20);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "New user name";
+            label2.AutoSize = true;
+            label2.Location = new Point(49, 93);
+            label2.Name = "label2";
+            label2.Size = new Size(111, 20);
+            label2.TabIndex = 8;
+            label2.Text = "New user name";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(49, 141);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(106, 20);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "New password";
+            label3.AutoSize = true;
+            label3.Location = new Point(49, 141);
+            label3.Name = "label3";
+            label3.Size = new Size(106, 20);
+            label3.TabIndex = 9;
+            label3.Text = "New password";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(49, 184);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(351, 20);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Tabulator number between username and password";
+            label4.AutoSize = true;
+            label4.Location = new Point(49, 184);
+            label4.Name = "label4";
+            label4.Size = new Size(351, 20);
+            label4.TabIndex = 10;
+            label4.Text = "Tabulator number between username and password";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(49, 224);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(252, 20);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Number of enters after the password";
+            label5.AutoSize = true;
+            label5.Location = new Point(49, 224);
+            label5.Name = "label5";
+            label5.Size = new Size(252, 20);
+            label5.TabIndex = 11;
+            label5.Text = "Number of enters after the password";
             // 
             // cBShow
             // 
-            this.cBShow.AutoSize = true;
-            this.cBShow.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.cBShow.Location = new System.Drawing.Point(469, 145);
-            this.cBShow.Name = "cBShow";
-            this.cBShow.Size = new System.Drawing.Size(65, 24);
-            this.cBShow.TabIndex = 12;
-            this.cBShow.Text = "Show";
-            this.cBShow.UseVisualStyleBackColor = true;
-            this.cBShow.CheckedChanged += new System.EventHandler(this.cBShow_CheckedChanged);
+            cBShow.AutoSize = true;
+            cBShow.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point);
+            cBShow.Location = new Point(469, 145);
+            cBShow.Name = "cBShow";
+            cBShow.Size = new Size(65, 24);
+            cBShow.TabIndex = 12;
+            cBShow.Text = "Show";
+            cBShow.UseVisualStyleBackColor = true;
+            cBShow.CheckedChanged += cBShow_CheckedChanged;
             // 
             // AddPassword
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(629, 331);
-            this.Controls.Add(this.cBShow);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.nUDEnter);
-            this.Controls.Add(this.nUDTab);
-            this.Controls.Add(this.TbNewPassword);
-            this.Controls.Add(this.TbNewUsername);
-            this.Controls.Add(this.TbNewPageName);
-            this.Controls.Add(this.BtnCancel);
-            this.Controls.Add(this.BtnSend);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "AddPassword";
-            this.Text = "Password Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.nUDTab)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUDEnter)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(629, 331);
+            Controls.Add(cBShow);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(nUDEnter);
+            Controls.Add(nUDTab);
+            Controls.Add(TbNewPassword);
+            Controls.Add(TbNewUsername);
+            Controls.Add(TbNewPageName);
+            Controls.Add(BtnCancel);
+            Controls.Add(BtnSend);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Name = "AddPassword";
+            Text = "Password Editor";
+            ((System.ComponentModel.ISupportInitialize)nUDTab).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nUDEnter).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

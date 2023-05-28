@@ -5,13 +5,23 @@
 #include "flash_handler.h"
 #include "User.h"
 
-uint8_t newfeature[USB_REPORT_SIZE];
+uint8_t newfeature[USB_REPORT_SIZE];		//feature report prebuffer
 
-uint8_t report_buffer[USB_REPORT_SIZE];		//Variable to receive the report buffer
-uint8_t flag = 0;							//Variable to store the button flag
-uint8_t flag_rx = 0;						//Variable to store the reception flag
-uint8_t authenticated = 0; 					// Variable for user status
+uint8_t report_buffer[USB_REPORT_SIZE];		//Array which stores arrived feature reports.
+uint8_t flag_rx = 0;						//Flag which sets if a feature report arrives. Manual reset needed!
+uint8_t authenticated = 0; 					// Variable for user status.
 
+
+/*
+ * Succes : 1
+ * Fail : 0
+ */
+
+
+/**
+  * @brief Used error detection. The led on the device starts blinking.
+  *
+  */
 void failCom()
 {
 	for(uint8_t i = 0; i < 10; i++)
@@ -24,6 +34,10 @@ void failCom()
 	HAL_GPIO_WritePin(Led_GPIO_Port, Led_Pin, SET);
 }
 
+/**
+  * @brief Clears the feature buffer.
+  *
+  */
 void clearReportBuffer()
 {
 	for(uint8_t i = 0; i < USB_REPORT_SIZE-1; i++)
@@ -33,6 +47,10 @@ void clearReportBuffer()
 
 }
 
+/**
+  * @brief Clears the feature prebuffer.
+  *
+  */
 void ClearNewFeature()
 {
 	for(uint8_t i = 0; i < USB_REPORT_SIZE-1; i++)
@@ -41,24 +59,16 @@ void ClearNewFeature()
 	}
 }
 
-uint8_t SendString(char str[], uint8_t checksum)
-{
-	USB_Clear_Feature();
-	ClearNewFeature();
-
-	uint8_t i;
-	for(i = 0; (i < USB_REPORT_MESSAGE_SIZE-1) && (str[i] != '\0'); i++)
-	{
-		newfeature[i] = str[i];
-	}
-	newfeature[i] = '\0';
-
-	newfeature[CHECK_SUM_PLACE] = checksum;
-
-	return USB_Set_Feature(newfeature, i);
-
-}
-
+/**
+  * @brief Sends an arbitrary byte to client.
+  *
+  *
+  * @param data: The single byte to send.
+  *
+  * @param checksum: The checksum arrived from client.
+  *
+  * @retval Succes or fail.
+  */
 uint8_t SendSingleData(uint8_t data, uint8_t checksum)
 {
 	USB_Clear_Feature();
@@ -71,7 +81,18 @@ uint8_t SendSingleData(uint8_t data, uint8_t checksum)
 	return USB_Set_Feature(newfeature, 2);
 }
 
-
+/**
+  * @brief Sends arbitrary bytes to client.
+  *
+  *
+  * @param data: The bytes to send.
+  *
+  * @param length: The length of the array to prevent buffer overflow
+  *
+  * @param checksum: The checksum arrived from client.
+  *
+  * @retval Succes or fail.
+  */
 uint8_t SendData(uint8_t* data, uint8_t length, uint8_t checksum)
 {
 	if(length > USB_REPORT_MESSAGE_SIZE)
@@ -95,89 +116,42 @@ uint8_t SendData(uint8_t* data, uint8_t length, uint8_t checksum)
 }
 
 
-void SendRandomLoop(uint8_t *randBytes, int length,  uint8_t status)
+/**
+  * @brief Sends an arbitrary string to client.
+  *
+  *
+  * @param str[]: The string to send.
+  * @param checksum: The checksum arrived from client.
+  *
+  * @retval Succes or fail.
+  */
+uint8_t SendString(char str[], uint8_t checksum)
 {
-	flag_rx = 0;
-	while(1)
+	USB_Clear_Feature();
+	ClearNewFeature();
+
+	uint8_t i;
+	for(i = 0; (i < USB_REPORT_MESSAGE_SIZE-1) && (str[i] != '\0'); i++)
 	{
-
-		// If client asks for authentication status then the device sends it here.
-		if(SEND_STATUS == report_buffer[0])
-		{
-			SendStatus(status, report_buffer[CHECK_SUM_PLACE]);
-			flag_rx = 0;
-		}
-
-		// If random bytes needed for HMAC, the device sends them.
-		if(report_buffer[0] == SEND_RND_NUM)
-		{
-			SendData(randBytes, length, report_buffer[CHECK_SUM_PLACE]);
-			flag_rx = 0;
-			return;
-		}
+		newfeature[i] = str[i];
 	}
-}
+	newfeature[i] = '\0';
 
+	newfeature[CHECK_SUM_PLACE] = checksum;
 
-uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status, uint8_t *randBytes)
-{
-
-	while(1)
-	{
-
-		flag_rx = 0;
-		while(flag_rx == 0);
-		int i;
-
-		// Client sends the response to try a login or the master password to store.
-		if(VALID_REPORT == report_buffer[0])
-		{
-			for(i = 0; (report_buffer[i] != ('\0')) && (i < USB_REPORT_MESSAGE_SIZE-1); i++)
-			{
-				masterPassword[i] = report_buffer[i + 1];
-			}
-			masterPassword[i] = '\0';
-
-			return 1;
-		}
-
-		// If client asks for authentication status then the device sends it here.
-		if(SEND_STATUS == report_buffer[0])
-		{
-			SendStatus(status, report_buffer[CHECK_SUM_PLACE]);
-		}
-
-		// If random bytes needed for HMAC, the device sends them.
-		if(report_buffer[0] == SEND_RND_NUM)
-		{
-			SendData(randBytes, 13, report_buffer[CHECK_SUM_PLACE]);
-		}
-
-
-		// If client asks a mass delete the device handle it here.
-		if(DELETE_ALL == report_buffer[0])
-		{
-			MassErase();
-			LoginLoop();
-		}
-	}
-	flag_rx = 0;
-	return 0;
-}
-
-
-uint8_t SendStatus(uint8_t status, uint8_t checksum)
-{
-	return SendSingleData(status, checksum);
-}
-
-
-uint8_t SendPassCount(uint8_t checksum)
-{
-	return SendSingleData(NumberOfValidRecords(), checksum);
+	return USB_Set_Feature(newfeature, i);
 
 }
 
+/**
+  * @brief Sends the name of the selected record.
+  *
+  *
+  * @param checksum: The checksum arrived from client.
+  * @param which: Defines the nth record to send.
+  *
+  * @retval Succes or fail.
+  */
 uint8_t SendName(uint8_t which, uint8_t checksum)
 {
 	char name[USB_REPORT_MESSAGE_SIZE];
@@ -185,6 +159,15 @@ uint8_t SendName(uint8_t which, uint8_t checksum)
 	return SendString(name, checksum);
 }
 
+/**
+  * @brief Sends the password of the selected record.
+  *
+  *
+  * @param checksum: The checksum arrived from client.
+  * @param which: Defines the nth record to send.
+  *
+  * @retval Succes or fail.
+  */
 uint8_t SendPassword(uint8_t which, uint8_t checksum)
 {
 	char password[USB_REPORT_MESSAGE_SIZE];
@@ -192,6 +175,15 @@ uint8_t SendPassword(uint8_t which, uint8_t checksum)
 	return SendString(password, checksum);
 }
 
+/**
+  * @brief Sends the username of the selected record.
+  *
+  *
+  * @param checksum: The checksum arrived from client.
+  * @param which: Defines the nth record to send.
+  *
+  * @retval Succes or fail.
+  */
 uint8_t SendUsername(uint8_t which, uint8_t checksum)
 {
 	char username[USB_REPORT_MESSAGE_SIZE];
@@ -199,22 +191,81 @@ uint8_t SendUsername(uint8_t which, uint8_t checksum)
 	return SendString(username, checksum);
 }
 
+/**
+  * @brief Sends the number of tabs pressed between auth. credentials.
+  *
+  *
+  * @param checksum: The checksum arrived from client.
+  * @param which: Defines the nth record to send.
+  *
+  * @retval Succes or fail.
+  */
 uint8_t SendTabNum(uint8_t which, uint8_t checksum)
 {
 	return SendSingleData(GetNthTabNum(which), checksum);
 
 }
 
+/**
+  * @brief Sends the number of enters after auth credentials are entered.
+  *
+  *
+  * @param checksum: The checksum arrived from client.
+  * @param which: Defines the nth record to send.
+  *
+  * @retval Succes or fail.
+  */
 uint8_t SendEnterNum(uint8_t which, uint8_t checksum)
 {
 	return SendSingleData(GetNthEnterNum(which), checksum);
 }
 
+/**
+ * @brief Sends the current number of passwords stored on the device.
+ *
+ *
+ * @param  checksum: The checksum arrived from client.
+ *
+ * @retval Succes or fail.
+ */
+uint8_t SendPassCount(uint8_t checksum)
+{
+	return SendSingleData(NumberOfValidRecords(), checksum);
+
+}
+
+/**
+  * @brief Sends the status of authentication
+  *
+  *
+  * @param checksum: The checksum arrived from client.
+  * @param status: Status of login state.
+  *
+  * @retval Succes or fail.
+  */
+
+uint8_t SendStatus(uint8_t status, uint8_t checksum)
+{
+	return SendSingleData(status, checksum);
+}
+
+/**
+  * @brief Sends the maximum number of records that can be stored.
+  *
+  *
+  * @param checksum: The checksum arrived from client.
+  *
+  * @retval Succes or fail.
+  */
 uint8_t SendMaxPassCount(uint8_t checksum)
 {
 	return SendSingleData(GetMaxRecordCount(), checksum);
 }
 
+/**
+  * @brief Main method used to handle reports.
+  *
+  */
 void HandleFeatureReport()
 {
 		// Check if user is already logged in
@@ -388,14 +439,23 @@ void HandleFeatureReport()
 						  failCom();
 						  break;
 					  }
-				  }
+				 }
 
-				  flag_rx = 0;
-			}
+				 flag_rx = 0;
 		}
- 	 }
+	}
+}
 
 
+/**
+  * @brief Creates a record from three specified feature reports.
+  *
+  * @note First report: Record name, number of tabs, number of enters
+  *		  Second report: password
+  *		  Third report: username.
+  *
+  * @param type: Defines if the record is new or used to edit an existing record.
+  */
 void FeatureToPass(uint8_t type)
 {
 	uint8_t i;
@@ -487,6 +547,97 @@ void FeatureToPass(uint8_t type)
 		if(EditRecord(&Pass, which) != F_SUCCESS)
 		{
 			failCom();
+			return;
+		}
+	}
+}
+
+/**
+  * @brief Only handles specific reports used for user authentication
+  *
+  * @param masterPassword: Stores the password arrived from the client.
+  *
+  * @param status: If the client asks the status.
+  *
+  * @param randBytes: The array of random bytes.
+  *
+  * @retval Succes of fail.
+  *
+  */
+uint8_t AuthenticateFromFeature(char* masterPassword, uint8_t status, uint8_t *randBytes)
+{
+
+	while(1)
+	{
+
+		flag_rx = 0;
+		while(flag_rx == 0);
+		int i;
+
+		// Client sends the response to try a login or the master password to store.
+		if(VALID_REPORT == report_buffer[0])
+		{
+			for(i = 0; (report_buffer[i] != ('\0')) && (i < USB_REPORT_MESSAGE_SIZE-1); i++)
+			{
+				masterPassword[i] = report_buffer[i + 1];
+			}
+			masterPassword[i] = '\0';
+
+			return 1;
+		}
+
+		// If client asks for authentication status then the device sends it here.
+		if(SEND_STATUS == report_buffer[0])
+		{
+			SendStatus(status, report_buffer[CHECK_SUM_PLACE]);
+		}
+
+		// If random bytes needed for HMAC, the device sends them.
+		if(report_buffer[0] == SEND_RND_NUM)
+		{
+			SendData(randBytes, 13, report_buffer[CHECK_SUM_PLACE]);
+		}
+
+
+		// If client asks a mass delete the device handle it here.
+		if(DELETE_ALL == report_buffer[0])
+		{
+			MassErase();
+			LoginLoop();
+		}
+	}
+	flag_rx = 0;
+	return 0;
+}
+
+/**
+  * @brief Method to send random bytes to the client.
+  * @note	This method is used to send random bytes
+  *			which are required for the Challenge-
+  *			Response authentication.
+  *
+  *	@param randBytes: The array of random bytes.
+  *	@param length: The length of the array (it is a must to prevent buffer overflow).
+  *	@param status: If the client asks the status.
+  */
+void SendRandomLoop(uint8_t *randBytes, int length,  uint8_t status)
+{
+	flag_rx = 0;
+	while(1)
+	{
+
+		// If client asks for authentication status then the device sends it here.
+		if(SEND_STATUS == report_buffer[0])
+		{
+			SendStatus(status, report_buffer[CHECK_SUM_PLACE]);
+			flag_rx = 0;
+		}
+
+		// If random bytes needed for HMAC, the device sends them.
+		if(report_buffer[0] == SEND_RND_NUM)
+		{
+			SendData(randBytes, length, report_buffer[CHECK_SUM_PLACE]);
+			flag_rx = 0;
 			return;
 		}
 	}
