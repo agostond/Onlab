@@ -6,6 +6,15 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
+/*
+ * THIS FILE IS NOT CREATED BY ME
+ * THIS FILE IS NEEDED FOR USB COMMUNICATION
+ * 
+ */
+
+
 namespace ClientApp
 {
     internal class UsbHid

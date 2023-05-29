@@ -89,7 +89,6 @@
             TbNewPassword.PasswordChar = '*';
             TbNewPassword.Size = new Size(290, 27);
             TbNewPassword.TabIndex = 4;
-            TbNewPassword.TextChanged += TbNewPassword_TextChanged;
             // 
             // nUDTab
             // 

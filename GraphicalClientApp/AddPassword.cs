@@ -13,11 +13,11 @@ namespace ClientApp
     public partial class AddPassword : Form
     {
 
-        private string newPass;
-        private string newName;
-        private string newUser;
-        private uint newTabNum;
-        private uint newEnterNum;
+        private string newPass = "";   //string which stores the password entered by the user
+        private string newName = "";   //string which stores the page name entered by the user
+        private string newUser = "";   //string which stores the username entered by the user
+        private uint newTabNum;   //stores how many tabs the user wants between an username and a password
+        private uint newEnterNum; //stores how many enters the user wants after the password
 
         public string NewPass
         {
@@ -74,7 +74,22 @@ namespace ClientApp
             InitializeComponent();
         }
 
-        public void Init(string btnName, string oldPass = null, string oldName = null, string oldUser = null, uint oldTabNum = 1, uint oldEnterNum = 1)
+        /**
+          * @brief Sets up the form with user data.
+          *
+          * @param btnName: Here you can change the buttons text.
+          * 
+          * @param olPass: Default text of the password textbox.
+          * 
+          * @param oldName: Default text of the pagename textbox.
+          * 
+          * @param oldUser: Default text of the username textbox.
+          * 
+          * @param oldTabNum: Sets the default value for tabNum numeric filed.
+          * 
+          * @param oldEnterNum: Sets the default value for enterNum numeric filed.
+          */
+        public void Init(string btnName, string oldPass = "", string oldName = "", string oldUser = "", uint oldTabNum = 1, uint oldEnterNum = 1)
         {
 
             if (btnName != null)
@@ -101,6 +116,14 @@ namespace ClientApp
             nUDTab.Value = oldTabNum;
         }
 
+        /**
+          * @brief Checks every entered data, if everything is OK, then sets the variables.
+          *
+          * @note This is an evenet handler for send button pressed.
+          * 
+          * @note If everything is succes sends a dialog result OK
+          *
+          */
         private void BtnSend_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TbNewPassword.Text))
@@ -131,11 +154,22 @@ namespace ClientApp
 
         }
 
+        /**
+          * @brief Sends a dialog result cancel
+          *
+          */
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
         }
 
+        /**
+          * @brief Sets the visibility of the password storing text box.
+          *
+          * @note This is an evenet handler for a chekbox change
+          *
+          * @note data: default option: not visible (every charcter is replaced with a "*")
+          */
         private void cBShow_CheckedChanged(object sender, EventArgs e)
         {
             if (cBShow.Checked)
@@ -146,11 +180,6 @@ namespace ClientApp
             {
                 TbNewPassword.PasswordChar = '*';
             }
-        }
-
-        private void TbNewPassword_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

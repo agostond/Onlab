@@ -12,7 +12,7 @@ namespace ClientApp
 {
     public partial class CreateUserPage : Form
     {
-        private string enteredPass;
+        private string enteredPass = ""; //string which stores the master password entered by the user
 
         public string EnteredPass
         {
@@ -27,16 +27,12 @@ namespace ClientApp
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CreateUser_Load(object sender, EventArgs e)
-        {
-
-        }
-
+        /**
+          * @brief If there is text in the password textbox, stores it in the private string
+          *
+          * @note This is an evenet handler for send button pressed.
+          *
+          */
         private void BtnCreate_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TbNewPassword.Text))
@@ -51,18 +47,21 @@ namespace ClientApp
             }
         }
 
-        private void TbNewPassword_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        /**
+          * @brief Sets the visibility of the password storing text box.
+          *
+          * @note This is an evenet handler for a chekbox change
+          *
+          * @note data: default option: not visible (every charcter is replaced with a "*")
+          */
         private void cBShow_CheckedChanged(object sender, EventArgs e)
         {
             if (cBShow.Checked)
             {
                 TbNewPassword.PasswordChar = '\0';
             }
-            else {
+            else
+            {
                 TbNewPassword.PasswordChar = '*';
             }
         }
