@@ -67,7 +67,7 @@ uint8_t WritePass(uint8_t which, uint8_t how)
   * @brief Creates a new record in flash.
   *
   *
-  * @param Record: A struct, which stores every iunformation about a record.
+  * @param Record: A struct, which stores every information about a record.
   *
   * @retval Succes or fail.
   */

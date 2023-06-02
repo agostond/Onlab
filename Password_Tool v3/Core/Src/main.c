@@ -96,11 +96,6 @@ static void MX_CRC_Init(void);
 		HAL_GPIO_WritePin(Led_GPIO_Port, Led_Pin, SET);
 	}
 
-
-
-	extern int pbCounter;
-	int currentTick[10];
-
 /* USER CODE END 0 */
 
 /**
@@ -372,14 +367,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	if(GPIO_Pin == GPIO_PIN_1 && pbCounter < 10)
-	{
-		currentTick[pbCounter] = htim2.Instance->CNT;
-		pbCounter++;
-	}
-}
+
 
 
 /* USER CODE END 4 */
