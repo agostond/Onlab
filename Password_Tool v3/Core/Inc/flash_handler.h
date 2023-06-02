@@ -7,13 +7,14 @@
 #include "PasswordManager.h"
 #include "stm32f1xx_hal_flash_ex.h"
 
-#define NUMOFPAGES 12
+#define NUMOFPAGES 4
 #define MAXRECORDSNUM 32
 #define EMPTY_FLASH_WORD 0xFFFFFFFF
 
-#define FLASH_USER_DATA_ADDRESS 0x800DC00
-#define FLASH_START_ADDRESS_FIRST_BLOCK 0x800E000
-#define FLASH_START_ADDRESS_SECOND_BLOCK 0x800F000
+
+#define FLASH_USER_DATA_ADDRESS 0x800E000
+#define FLASH_START_ADDRESS_FIRST_BLOCK 0x800E400
+#define FLASH_START_ADDRESS_SECOND_BLOCK 0x800F400
 #define END_OF_FLASH  0x8010000
 
 
@@ -35,38 +36,16 @@ enum ErrorCodes
 };
 
 
-void MassErase();
-int GetMaxRecordCount();
-int GetNextSerialNum();
-int NumberOfValidRecords();
 int WriteDataToFlash(uint8_t* data, size_t n_bytes, uint32_t flashAddress);
-
-int ReadRecordFromAddress(uint32_t FlashAddress, Record* RecordBuffer);
-
-int IsValid(uint32_t FlashAddress);
-
-int MakeInvalid(uint32_t FlashAddress);
-int MakeNthInvalid(int n);
+int NewRecordToFlash(Record* newRecord);
 
 int NthRecord(int n, bool onlyValid, Record* nthRecord);
+int NumberOfValidRecords();
+int GetMaxRecordCount();
 
-uint32_t GetFirstEmptyAddress();
+int MakeNthInvalid(int n);
+void MassErase();
 
-uint32_t GetValidBlockAddress();
-
-int EraseInvalidBlock(uint32_t FlashAddressB, uint16_t numberOfPages);
-
-int CleanUpFlash();
-
-int WriteRecordToFlash(Record * recordPtr, uint32_t flashAddress);
-
-void SetFlashAddresses(uint32_t *FlashAddressA, uint32_t *FlashAddressB);
-
-uint32_t AddressOfNthValidRecord(int n);
-
-int NumberOfAllRecords();
-
-int NewRecordToFlash(Record* newRecord);
 
 
 

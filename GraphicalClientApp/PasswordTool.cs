@@ -316,11 +316,11 @@ namespace ClientApp
 
 
         /**
-          * @brief TODO
+          * @brief Read the main password from the user and calculates CR response with the received random byte stream
           * 
-          * @param password:TODO
+          * @param password: main password from the user
           * 
-          * @param random: TODO
+          * @param random: the random byte stream received from the Password Tool 
           * 
           *
           */

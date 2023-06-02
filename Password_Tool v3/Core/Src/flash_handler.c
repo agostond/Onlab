@@ -5,16 +5,65 @@
 
 extern CRC_HandleTypeDef hcrc;
 
+/**************************
+ * Function Declarations
+ **************************/
+uint32_t GetFirstEmptyAddress();
+uint32_t GetValidBlockAddress();
+int NumberOfAllRecords();
+void SetFlashAddresses(uint32_t *FlashAddressA, uint32_t *FlashAddressB);
+
+int ReadRecordFromAddress(uint32_t FlashAddress, Record* RecordBuffer);
+
+int GetNextSerialNum();
+uint32_t AddressOfNthValidRecord(int n);
+int IsValid(uint32_t FlashAddress);
+
+int WriteRecordToFlash(Record * recordPtr, uint32_t flashAddress);
+
+int MakeInvalid(uint32_t FlashAddress);
+int EraseInvalidBlock(uint32_t FlashAddressB, uint16_t numberOfPages);
+int CleanUpFlash();
+
+
+
+
+/**************************
+ * Function Definitions
+ **************************/
+
+
+/**
+  * @brief Erase the whole flash segment of the Password Manager
+  *
+  * @note This function deletes all the data which the user saved on the device.
+  */
 void MassErase()
 {
 	EraseInvalidBlock(FLASH_USER_DATA_ADDRESS, (1 + 2 * NUMOFPAGES));
 }
 
+/**
+  * @brief Returns the maximum possible record number the device can store
+  *
+  * @retval the number of records the device can store
+  */
 int GetMaxRecordCount()
 {
 	return MAXRECORDSNUM;
 }
 
+/**
+  * @brief This function is used to write a byte stream to the specified flash address.
+  *
+  * @param data: the bytes to store
+  *
+  * @param n_bytes: the number of bytes to store
+  *
+  * @param flashAddress: the address of the flash, where the bytes need to be stored
+  *
+  * @retval status of the flash operation (succes or fail)
+  */
 int WriteDataToFlash(uint8_t* data, size_t n_bytes, uint32_t flashAddress)
 {
 	int sofar=0;
@@ -49,6 +98,18 @@ int WriteDataToFlash(uint8_t* data, size_t n_bytes, uint32_t flashAddress)
 	return F_SUCCESS;
 }
 
+/**
+  * @brief Reads a Record from the specified flash address.
+  *
+  * @note 	The function decrypts the encrypted records before passing it to the buffer
+  * 		The function also performs a CRC check on the decrypted Record
+  *
+  * @param FlashAddress: the address of the desired Record in the flash
+  * @param RecordBuffer: a buffer for the Record (used as return)
+  *
+  *
+  * @retval status of the flash operation (succes or fail)
+  */
 int ReadRecordFromAddress(uint32_t FlashAddress, Record* RecordBuffer)
 {
 
@@ -88,7 +149,7 @@ int ReadRecordFromAddress(uint32_t FlashAddress, Record* RecordBuffer)
 
 	memcpy(&RecordBuffer->sumCRC, (uint32_t*)current_flash_address, sizeof(RecordBuffer->sumCRC));
 
-	// Kititkositas
+	// Decrypting the Record
 	uint8_t keyToRecordKey[32];
 	uint8_t nonce[12];
 	uint8_t recordKey[32];
@@ -100,7 +161,7 @@ int ReadRecordFromAddress(uint32_t FlashAddress, Record* RecordBuffer)
 	EncryptDecrypt(recordKey, nonce, (uint8_t*)RecordBuffer->username, 32);
 	EncryptDecrypt(recordKey, nonce, (uint8_t*)RecordBuffer->password, 64);
 
-	// CRC ellenorzes
+	// CRC check
 	HAL_CRC_Calculate(&hcrc, (uint32_t*)RecordBuffer->username, 8);
 	uint32_t calCRC = HAL_CRC_Accumulate(&hcrc, (uint32_t*)RecordBuffer->password, 16);
 	if(RecordBuffer->sumCRC != calCRC)
@@ -113,7 +174,12 @@ int ReadRecordFromAddress(uint32_t FlashAddress, Record* RecordBuffer)
 }
 
 
-
+/**
+  * @brief Returns the number of valid records stored in the flash.
+  *
+  *
+  * @retval the number of the valid records
+  */
 int NumberOfValidRecords()
 {
 	int numberOfRecords = 0;
@@ -146,6 +212,15 @@ int NumberOfValidRecords()
 
 }
 
+/**
+  * @brief Checks weather the record is valid or not in the specified flash address.
+  *
+  *
+  * @param FlashAddress: the address of the desired Record in the flash
+  *
+  *
+  * @retval valid or not
+  */
 int IsValid(uint32_t FlashAddress)
 {
 
@@ -164,6 +239,13 @@ int IsValid(uint32_t FlashAddress)
 
 }
 
+/**
+  * @brief Make the Record invalid in the specified flash address.
+  * @param FlashAddress: the address of the desired Record in the flash
+  *
+  *
+  * @retval status of the flash operation (success or fail)
+  */
 int MakeInvalid(uint32_t FlashAddress)
 {
 
@@ -183,6 +265,13 @@ int MakeInvalid(uint32_t FlashAddress)
 
 }
 
+/**
+  * @brief Make the nth Record invalid in the flash.
+  * @param n: the number of the valid record that we want to make invalid
+  *
+  *
+  * @retval status of the flash operation (success or fail)
+  */
 int MakeNthInvalid(int n)
 {
 	uint32_t flashAddress = GetValidBlockAddress(FLASH_START_ADDRESS_FIRST_BLOCK, FLASH_START_ADDRESS_SECOND_BLOCK);
@@ -191,6 +280,16 @@ int MakeNthInvalid(int n)
 	return status;
 }
 
+/**
+  * @brief Returns the nth Record in the specified Record buffer
+  * @param n: the number of the desired record
+  * @param onlyValid:	true -> we only count the valid records
+  * 					false -> we count every record
+  *
+  * @param nthRecord: the buffer for the Record
+  *
+  * @retval status of the flash operation (success or fail)
+  */
 int NthRecord(int n, bool onlyValid, Record* nthRecord)
 {
 	uint32_t currentFlashAddress = GetValidBlockAddress();
@@ -214,6 +313,11 @@ int NthRecord(int n, bool onlyValid, Record* nthRecord)
 	}
 }
 
+/**
+  * @brief Returns the first empty address int the flash.
+  *
+  * @retval the address
+  */
 uint32_t GetFirstEmptyAddress()
 {
 	uint32_t FlashAddress = GetValidBlockAddress();
@@ -222,6 +326,16 @@ uint32_t GetFirstEmptyAddress()
 	return firstEmptyAddress;
 }
 
+/**
+  * @brief Returns the valid block address.
+  *
+  * @note	We use double buffering in the flash operations.
+  * 		This function determines the address of the block which holds the valid data.
+  *
+  *
+  *
+  * @retval the address
+  */
 uint32_t GetValidBlockAddress()
 {
 	Record RxBuffer;
@@ -292,16 +406,12 @@ uint32_t GetValidBlockAddress()
 	maxSerialNum = RxBuffer.serialNum;
 
 	status = ReadRecordFromAddress(addressOfLastRecordB, &RxBuffer);
-	/*hibakezelés*/
+
 
 	if(status != F_SUCCESS)
 	{
 		return status;
 	}
-
-	/* Annak eldöntése, hogy melyik blokkban van nagyobb sorszámú rekord, tehát melyik a valid blokk*/
-
-
 
 	if(RxBuffer.serialNum > maxSerialNum)
 	{
@@ -315,6 +425,15 @@ uint32_t GetValidBlockAddress()
 
 }
 
+/**
+  * @briefWrites a Record to the specified flash address.
+  *
+  * @param recordPtr: the Record which need to be stored
+  * @param flashAddress: the address where the Record will be stored.
+  *
+  *
+  * @retval status of the flash operation (success or fail)
+  */
 int WriteRecordToFlash(Record * recordPtr, uint32_t flashAddress)
 {
 
@@ -353,10 +472,18 @@ int WriteRecordToFlash(Record * recordPtr, uint32_t flashAddress)
 	return F_SUCCESS;
 }
 
+/**
+  * @brief Ereases the invalid block when cleaning the flash.
+  * @param FlashAddressB:	the address of the second buffer
+  *							we will store the records here
+  *
+  * @param numberOfPages: the number of flash pages used as buffer
+  *
+  * @retval status of the flash operation (success or fail)
+  */
 int EraseInvalidBlock(uint32_t FlashAddressB, uint16_t numberOfPages)
 {
 
-	//int numberofwords = (strlen((char *)Data)/4)+((strlen((char*)Data)%4)!=0);
 	static FLASH_EraseInitTypeDef EraseInitStruct;
 	uint32_t PAGEError;
 
@@ -381,6 +508,17 @@ int EraseInvalidBlock(uint32_t FlashAddressB, uint16_t numberOfPages)
 	return F_SUCCESS;
 }
 
+/**
+  * @brief Saves a record to the flash
+  *
+  * @note	This function also performs encryption before saving the Record.
+  * 		There is also a CRC operation before the saving.
+  *
+  * @param newRecord: the Record to save
+  *
+  *
+  * @retval status of the flash operation (success or fail)
+  */
 int NewRecordToFlash(Record* newRecord)
 {
 	uint32_t flashAddress = GetValidBlockAddress();
@@ -396,12 +534,12 @@ int NewRecordToFlash(Record* newRecord)
 		flashAddress = GetValidBlockAddress(FLASH_START_ADDRESS_FIRST_BLOCK, FLASH_START_ADDRESS_SECOND_BLOCK);
 	}
 
-	// CRC kiszamolasa
+	// CRC calculation
 
 	HAL_CRC_Calculate(&hcrc, (uint32_t*)newRecord->username, 8);
 	newRecord->sumCRC = HAL_CRC_Accumulate(&hcrc, (uint32_t*)newRecord->password, 16);
 
-	// Titkositas
+	// Encryption
 	uint8_t keyToRecordKey[32];
 	uint8_t nonce[12];
 	uint8_t recordKey[32];
@@ -416,7 +554,7 @@ int NewRecordToFlash(Record* newRecord)
 	newRecord->isSecure = 1;
 	newRecord->isValid = 1;
 
-	// sorszam beallitasa
+	// Calculating the serial number of the record.
 
 	newRecord->serialNum = GetNextSerialNum();
 
@@ -424,6 +562,7 @@ int NewRecordToFlash(Record* newRecord)
 	flashAddress = GetFirstEmptyAddress(flashAddress);
 	return WriteRecordToFlash(newRecord, flashAddress);
 }
+
 
 int GetNextSerialNum()
 {
@@ -434,11 +573,17 @@ int GetNextSerialNum()
 	{
 		return 0;
 	}
-	int errorCode = NthRecord((nOfAllRecords - 1), 1, &RxBuffer);
+	NthRecord((nOfAllRecords - 1), 1, &RxBuffer);
 	return ((RxBuffer.serialNum)+1);
 }
 
-/* Ha pointerként adnám át a blokkok címét, akkor meg is cserélhetné az érvényes és nem érvényes blokkokat */
+
+/**
+  * @brief Cleans up the flash if the number of valid Records is less then the maximum Record number, but the flash is full.
+  *
+  *
+  * @retval status of the flash operation (success or fail)
+  */
 int CleanUpFlash()
 {
 
@@ -488,6 +633,13 @@ int CleanUpFlash()
 	return EraseInvalidBlock(tempAddress, numberOfPages);
 }
 
+/**
+  * @brief Sets the valid flash address.
+  *
+  * @param FlashAddressA: the address of the first buffer.
+  * @param FlashAddressB: the address of the second buffer.
+  *
+  */
 void SetFlashAddresses(uint32_t *FlashAddressA, uint32_t *FlashAddressB)
 {
 
@@ -502,6 +654,13 @@ void SetFlashAddresses(uint32_t *FlashAddressA, uint32_t *FlashAddressB)
 
 }
 
+/**
+  * @brief Returns the number of the stored records
+  *
+  * @note This function counts all the stored records (valid and invalid)
+  *
+  * @retval number of all stored records
+  */
 int NumberOfAllRecords()
 {
 	int n = 0;
@@ -519,6 +678,13 @@ int NumberOfAllRecords()
 
 }
 
+/**
+  * @brief Calculates the address of the nth valid Record in the flash.
+  * @param n: the number of the desired Record.
+  *
+  *
+  * @retval the address of the nth Record (or error if n is out of range)
+  */
 uint32_t AddressOfNthValidRecord(int n)
 {
 	uint32_t address = GetValidBlockAddress();
