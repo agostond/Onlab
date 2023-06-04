@@ -27,5 +27,6 @@ typedef struct
 
 void write (uint8_t key, uint8_t modifier);
 
+void writeAltTab();
 
 #endif

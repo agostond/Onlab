@@ -12,6 +12,7 @@
  ***********************/
 #define MOD_ALT_RIGHT       (1<<6)
 #define MOD_SHIFT_LEFT      (1<<1)
+#define MOD_ALT_LEFT		(1<<2)
 #define MOD_NO_MODIFIER		0
 
 

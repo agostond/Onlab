@@ -3,6 +3,7 @@
 #include "Keyboard.h"
 #include "PasswordManager.h"
 #include "flash_handler.h"
+#include "Write.h"
 
 
 /**
@@ -18,13 +19,15 @@
 uint8_t WritePass(uint8_t which, uint8_t how)
 {
 
-
-	HAL_Delay(1000);
-
+	HAL_Delay(50);
 
 	Record RxBuffer;
 
 	NthRecord(which, 1, &RxBuffer);
+
+	//send an alt + tab via USB
+	writeAltTab();
+	HAL_Delay(50);
 
 	switch (how)
 	{

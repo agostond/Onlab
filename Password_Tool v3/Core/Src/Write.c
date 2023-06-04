@@ -31,3 +31,13 @@ void write (uint8_t key, uint8_t modifier)
 	USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS,(uint8_t*)&keyBoardHIDsub,sizeof(keyBoardHIDsub));
 
 }
+
+
+/**
+  * @brief Types an Alt+Tab via USB report functions.
+  *
+  *
+  */
+void writeAltTab(){
+	write(43,MOD_ALT_LEFT);
+}
